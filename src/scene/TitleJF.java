@@ -22,9 +22,9 @@ public class TitleJF extends  JFrame implements ActionListener {
     private final String travel01 = "tabi1";
     private final String travel02 = "tabi2";
     private final String travel03 = "tabi3";
-    
-    private final String illustrate1DB = "";
-    private final String historicalFactDB = "";
+    final int dice = new java.util.Random().nextInt(6);
+    final String illustrate1DB = "";
+    final String historicalFactDB = "";
     private final String diceRoll = "saikoro";
     private final String exit = "tugihe";
     private final String title = "taitorunimodoru";

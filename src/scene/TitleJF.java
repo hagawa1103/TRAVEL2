@@ -29,7 +29,6 @@ public class TitleJF extends  JFrame implements ActionListener {
     private final String diceRoll = "saikoro";
     private final String exit = "tugihe";
     private final String title = "taitorunimodoru";
-    
     //サイコロテスト用
     String test = "";
     String tests;

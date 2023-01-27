@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,7 +29,11 @@ public class TitleJF extends  JFrame implements ActionListener {
     private final String diceRoll = "saikoro";
     private final String exit = "tugihe";
     private final String title = "taitorunimodoru";
-
+    
+    //サイコロテスト用
+    String test = "";
+    String tests;
+    int diceTest; 
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
 		TitleJF frame = new TitleJF();
@@ -82,29 +87,74 @@ public class TitleJF extends  JFrame implements ActionListener {
         //panel02.setBackground(Color.DARK_GRAY);
         panel03.setBorder(new EmptyBorder(50, 400, 300, 400));
         
-        String[] messeages01 = {"[〇投目]", "（現在地○○)", "↑", "ボタンでサイコロを振ってね"};
+        ArrayList<String> placeName = new ArrayList< String>();
+        placeName.add(0, "ダミー");
+        placeName.add(1, "青森");
+        placeName.add(2, "新潟");
+        placeName.add(3, "松山");
+        placeName.add(4, "盛岡");
+        placeName.add(5, "下関");
+        placeName.add(6, "羽田空港→札幌直行");
+        
+        switch(dice) {
+        case 1: 
+        	test = placeName.get(1);
+            break;
+        case 2:
+        	test = placeName.get(2);
+      	  break;
+        case 3:
+        	test = placeName.get(3);
+      	  break;
+        case 4:
+        	test = placeName.get(4);
+      	  break;
+        case 5:
+        	test = placeName.get(5);
+      	  break;
+        case 6:
+        	test = placeName.get(6);
+      	  break;
+      }
+        for(int i = 0; i < placeName.size(); i++) {
+        	tests = placeName.get(i);
+        	System.out.println(tests);
+        }
         
         
-        JLabel label4 = new JLabel(messeages01[0]);
-        label4 .setFont(new Font("", Font.PLAIN, 28));
+       
+ 
+        //String[] messeages01 = {"〇投目", "現在地○○", "↑", "ボタンでサイコロを振ってね"};
+        String messeage2 =  "投目";
+        String messeage3 = "現在地○○";
+        String messeage4 = "↑";
+        String messeage5 = "ボタンでサイコロを振ってね";
+        JLabel label4 = new JLabel(messeage2);
+        label4.setFont(new Font("", Font.PLAIN, 28));
         
-        JLabel label5 = new JLabel(messeages01[1]);
+        JLabel label5 = new JLabel(messeage3);
         
-        JLabel label6 = new JLabel(messeages01[2]);
+        JLabel label6 = new JLabel(messeage4);
         label6.setFont(new Font("", Font.PLAIN, 20));
         
-        JLabel label7 = new JLabel(messeages01[3]);
+        JLabel label7 = new JLabel(messeage5);
         label7.setFont(new Font("", Font.PLAIN, 20));
         
-        //DB画面表配置枠
+        //DB画面表配置
         JPanel panel04 = new JPanel();
         panel04.setBackground(Color.BLUE);
         panel04.setPreferredSize(new Dimension(300, 200));
+        JLabel labelDB = new JLabel(tests);
+        panel04.add(labelDB);
         
         //サイコロ動作ボタン
         String btnName1 = "サイコロを振る";
         JButton btn04 = new JButton(btnName1);
         btn04.setPreferredSize(new Dimension(150, 30));
+        //if() {
+          //int count =0;
+          //testNember = count++;
+        //}
         btn04.addActionListener(this);
         btn04.setActionCommand(diceRoll);
         
@@ -120,7 +170,7 @@ public class TitleJF extends  JFrame implements ActionListener {
         panel05.setBackground(Color.LIGHT_GRAY);
         panel05.setBorder(new EmptyBorder(50, 400, 300, 400));
         
-        String[] messeages02 = {"出た目は", "行き先は", "交通手段は","↑次へを押してね",};
+        String[] messeages02 = {"出た目は" + dice, "行き先は", "交通手段は","↑次へを押してね",};
         
         
         JLabel label8 = new JLabel(messeages02[0]);
@@ -145,10 +195,12 @@ public class TitleJF extends  JFrame implements ActionListener {
 
         String btnName2 = "次へ";
         JButton btn05 = new JButton(btnName2);
-        btn05.setPreferredSize(new Dimension(150, 30));
+        btn05.setPreferredSize(new Dimension(150, 30));      
         btn05.addActionListener(this);
         btn05.setActionCommand(exit);
-        
+        //btn05.addActionListener(this);
+        //btn05.setActionCommand(diceRoll);
+ 
         panel05.add(label8);
         panel05.add(label9);
         panel05.add(label10);
@@ -236,7 +288,14 @@ public class TitleJF extends  JFrame implements ActionListener {
 		  layout.next(cardPanel);
 		}
         //layout.show(cardPanel, cmd);
+        diceTest = dice;
+        System.out.println(diceTest);
+        //int count =0;
+        //testNember = count++;
+        
+        
 	}
+	
 	
 	
 		

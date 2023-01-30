@@ -45,7 +45,7 @@ public class EndScreen extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setText("<html><body>長旅お疲れ様でした</body></html>");
-		lblNewLabel.setFont(new Font("Arial",Font.PLAIN, 28));
+		lblNewLabel.setFont(new Font("Arial",Font.PLAIN, 28));;
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 		lblNewLabel.setVerticalAlignment  (JLabel.CENTER);
 		lblNewLabel.getText();
@@ -54,7 +54,7 @@ public class EndScreen extends JFrame {
 		//lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("<html>本編が気になる方は是非DVD・BDが出ているので\n是非見てくだい</html>");
+		JLabel lblNewLabel_1 = new JLabel("<html><br/>本編が気になる方は是非DVD・BDが出ているので\n是非見てくだい</html>");
 		lblNewLabel_1.setFont(new Font("", Font.PLAIN, 12));
 		//lblNewLabel.setPreferredSize(new Dimension(100, 200));
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);

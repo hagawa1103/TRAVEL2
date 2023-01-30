@@ -16,8 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class TitleJF extends  JFrame implements ActionListener {
-	
+public class TitleJF extends JFrame implements ActionListener{
+
 	JPanel cardPanel;
     CardLayout layout;
     private final String travel01 = "tabi1";
@@ -45,9 +45,10 @@ public class TitleJF extends  JFrame implements ActionListener {
 	}
 	
 	public TitleJF() {
-		// 旅1
+		// タイトル画面
         JPanel panel01 = new JPanel();
-        panel01.setBorder(new EmptyBorder(50, 400, 500, 400));
+        
+        panel01.setBorder(new EmptyBorder(100, 500, 450, 500));
         String titleName = "[水曜どうでしょう サイコロの旅]";
         String messeage1 = "「↑押したらゲームスタート」";
         JLabel label = new JLabel(titleName);
@@ -58,20 +59,50 @@ public class TitleJF extends  JFrame implements ActionListener {
         JPanel panel02 = new JPanel();
         panel02.setBackground(Color.BLUE);
         panel02.setPreferredSize(new Dimension(300, 200));
-        
+        //panel02.setBorder(new EmptyBorder(200, 400, 300, 400));
+        String Illustration = "北海道ローカル番組から全国区に放送された人気番組。\n"
+        		+ "水曜どうでしょうの代表的な企画といっても過言ではなく、非常に人気がある企画。3つをピックアップして体験してもらおうというゲームです。\n"
+        		+ "ゴールは北海道内に踏み入れればOK、スタートは東京（島根県の時もある）。\n"
+        		+ "\n"
+        		+ "操作\n"
+        		+ "・旅１，２，３（ボタン）\n"
+        		+ "1～3のそれぞれのボタンを1つ押してもらうとゲームスタート\n"
+        		+ "・サイコロ（ボタン）\n"
+        		+ "1～6のサイコロ、ボタンを押すと自動で数字が出てくる\n"
+        		+ "・次へ（ボタン）\n"
+        		+ "次へのゲームに移る。ゴールに着いた場合にはゴール画面に移る\n"
+        		+ "・タイトルに戻る（ボタン）\n"
+        		+ "項目選択にページに移動する\n"
+        		+ "\n"
+        		+ "旅1.アンスの取材で東京までせっかく来たんだから何かやってから帰りましょう企画第一弾(サイコロ1)\n"
+        		+ "概要：記念すべき放送第一回。後の作品にもある「3枚の切符」や嬉野Dの貴重な乗り物酔いシーン等、「ディレクターも含め4人旅」という姿勢がこの時既に出来上がっていた。また大泉が痔を患っている事が発覚し、「闘痔の旅」のきっかけともなった。\n"
+        		+ "\n"
+        		+ "旅2.サイコロ4～日本列島完全制覇～\n"
+        		+ "概要：前回までの「212市町村カントリーサインの旅2」がgdgdに終わったことから、\n"
+        		+ "「カントリーサインをもう一度やる」と大泉を騙して島根県出雲へ連行。\n"
+        		+ "道中、事前に伝えていた行き先とは真逆に進んでいたにもかかわらず、\n"
+        		+ "大泉は千歳の高速出口を出るまで気付かず、鈴井からサイコロキャラメルを差し出されてやっと気づいた。\n"
+        		+ "\n"
+        		+ "旅３東京幌サイコロの旅第5弾(サイコロ5～キングオブ深夜バス～)\n"
+                + "概要：乗車時間日本最長の“キング・オブ・深夜バス”「はかた号」との闘い。そしてサイコロ史上最も南下した企画。第一回の選択肢を全部深夜バスにした結果いきなりはかた号を引き、そこから地獄の戦いが幕を開ける。";
+        JLabel labelIllustration = new JLabel(Illustration);
+        panel02.add(labelIllustration);
         //移動ボタン
         String[] btnNames = {"旅1", "旅2", "旅3"};
         
         JButton btn01 = new JButton(btnNames[0]);
         btn01.setPreferredSize(new Dimension(150, 30));
+        //btn01.setAlignmentY(0.5f);
         btn01.addActionListener(this);
         btn01.setActionCommand(travel01);
         JButton btn02 = new JButton(btnNames[1]);
         btn02.setPreferredSize(new Dimension(150, 30));
+        //btn02.setAlignmentX(0.5f);
         btn02.addActionListener(this);
         btn02.setActionCommand(travel02);
         JButton btn03 = new JButton(btnNames[2]);
         btn03.setPreferredSize(new Dimension(150, 30));
+        //btn03.setAlignmentX(0.5f);
         btn03.addActionListener(this);
         btn03.setActionCommand(travel03);
         
@@ -81,19 +112,19 @@ public class TitleJF extends  JFrame implements ActionListener {
         panel01.add(btn02);
         panel01.add(btn03);
         panel01.add(label1);
-        // サイコロを振る
+        // ゲーム画面
         JPanel panel03 = new JPanel();
         //panel02.setBackground(Color.DARK_GRAY);
-        panel03.setBorder(new EmptyBorder(50, 400, 300, 400));
+        panel03.setBorder(new EmptyBorder(150, 500, 700, 500));
         
         ArrayList<String> placeName = new ArrayList< String>();
-        placeName.add(0, "ダミー");
-        placeName.add(1, "青森");
-        placeName.add(2, "新潟");
-        placeName.add(3, "松山");
-        placeName.add(4, "盛岡");
-        placeName.add(5, "下関");
-        placeName.add(6, "羽田空港→札幌直行");
+        //placeName.add(0, "ダミー");
+        placeName.add( "青森");
+        placeName.add( "新潟");
+        placeName.add( "松山");
+        placeName.add( "盛岡");
+        placeName.add( "下関");
+        placeName.add( "羽田空港→札幌直行");
         
         switch(dice) {
         case 1: 
@@ -115,10 +146,10 @@ public class TitleJF extends  JFrame implements ActionListener {
         	test = placeName.get(6);
       	  break;
       }
-        for(int i = 0; i < placeName.size(); i++) {
-        	tests = placeName.get(i);
-        	System.out.println(tests);
-        }
+        //for(int i = 0; i < placeName.size(); i++) {
+        	//tests = placeName.get(i);
+        	//System.out.println(placeName.get(i));
+        //}
         
         
        
@@ -130,12 +161,13 @@ public class TitleJF extends  JFrame implements ActionListener {
         String messeage5 = "ボタンでサイコロを振ってね";
         JLabel label4 = new JLabel(messeage2);
         label4.setFont(new Font("", Font.PLAIN, 28));
+        //label4.setAlignmentY(0.5f);
         
         JLabel label5 = new JLabel(messeage3);
-        
+        //label5.setAlignmentY(0.5f);
         JLabel label6 = new JLabel(messeage4);
         label6.setFont(new Font("", Font.PLAIN, 20));
-        
+        //label6.setAlignmentY(0.5f);
         JLabel label7 = new JLabel(messeage5);
         label7.setFont(new Font("", Font.PLAIN, 20));
         
@@ -143,17 +175,18 @@ public class TitleJF extends  JFrame implements ActionListener {
         JPanel panel04 = new JPanel();
         panel04.setBackground(Color.BLUE);
         panel04.setPreferredSize(new Dimension(300, 200));
-        JLabel labelDB = new JLabel(tests);
-        panel04.add(labelDB);
+        panel04.setBorder(new EmptyBorder(50, 400, 300, 400));
+        for(int i = 0; i < placeName.size(); i++) {
+        	tests = placeName.get(i);
+        	JLabel labelDB = new JLabel(tests);
+            panel04.add(labelDB);
+        }
+        
         
         //サイコロ動作ボタン
         String btnName1 = "サイコロを振る";
         JButton btn04 = new JButton(btnName1);
         btn04.setPreferredSize(new Dimension(150, 30));
-        //if() {
-          //int count =0;
-          //testNember = count++;
-        //}
         btn04.addActionListener(this);
         btn04.setActionCommand(diceRoll);
         
@@ -167,9 +200,9 @@ public class TitleJF extends  JFrame implements ActionListener {
         // 次への画面
         JPanel panel05 = new JPanel();
         panel05.setBackground(Color.LIGHT_GRAY);
-        panel05.setBorder(new EmptyBorder(50, 400, 300, 400));
+        panel05.setBorder(new EmptyBorder(150, 500, 450, 500));
         
-        String[] messeages02 = {"出た目は" + dice, "行き先は", "交通手段は","↑次へを押してね",};
+        String[] messeages02 = {"出た目は" + dice, "行き先は" + test, "交通手段は","↑次へを押してね",};
         
         
         JLabel label8 = new JLabel(messeages02[0]);
@@ -210,7 +243,7 @@ public class TitleJF extends  JFrame implements ActionListener {
         //タイトルに戻る画面
         JPanel panel07 = new JPanel();
         panel07.setBackground(Color.LIGHT_GRAY);
-        panel07.setBorder(new EmptyBorder(200, 400, 300, 400));
+        panel07.setBorder(new EmptyBorder(100, 400, 500, 400));
         
         String messeage13 = "長旅お疲れ様でした";
         String messeage14 = "本編が気になる方は是非DVD・BDが出ているので是非見てくだい";
@@ -301,3 +334,4 @@ public class TitleJF extends  JFrame implements ActionListener {
 	
 
 }
+

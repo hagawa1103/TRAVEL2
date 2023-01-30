@@ -2,8 +2,6 @@ package scene;
 
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,10 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class ResultsScreen extends JPanel implements ActionListener {
+public class ResultsScreen extends JFrame {
 
 	private JPanel contentPane;
-	
 
 	/**
 	 * Launch the application.
@@ -41,7 +38,7 @@ public class ResultsScreen extends JPanel implements ActionListener {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		//setContentPane(contentPane);
+		setContentPane(contentPane);
 		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblNewLabel = new JLabel("出た目は〇");
@@ -54,25 +51,7 @@ public class ResultsScreen extends JPanel implements ActionListener {
 		contentPane.add(lblNewLabel_2);
 		
 		JButton btnNewButton = new JButton("次へ");
-		//CardLayout C1 = new CardLayout();
-		btnNewButton.addActionListener(this);
-		btnNewButton.setActionCommand("scene.EndScreen");
 		contentPane.add(btnNewButton);
-		
-	}
-
-	private void setDefaultCloseOperation(int exitOnClose) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO 自動生成されたメソッド・スタブ
-		//終了画面遷移させるscene.EndScreen
-		String cmd = e.getActionCommand();
-		
-		
 	}
 
 }

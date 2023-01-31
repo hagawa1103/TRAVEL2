@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class TitleJF extends JFrame implements ActionListener{
 
@@ -49,7 +50,7 @@ public class TitleJF extends JFrame implements ActionListener{
 		// タイトル画面
         JPanel panel01 = new JPanel();
         
-        panel01.setBorder(new EmptyBorder(100, 500, 450, 500));
+        panel01.setBorder(new EmptyBorder(30, 500, 450, 500));
         String titleName = "[水曜どうでしょう サイコロの旅]";
         String messeage1 = "「↑押したらゲームスタート」";
         JLabel label = new JLabel(titleName);
@@ -59,35 +60,31 @@ public class TitleJF extends JFrame implements ActionListener{
         //説明文表示用パネル
         JPanel panel02 = new JPanel();
         panel02.setBackground(Color.BLUE);
-        panel02.setPreferredSize(new Dimension(300, 200));
+        panel02.setPreferredSize(new Dimension(700, 400));
         //panel02.setBorder(new EmptyBorder(200, 400, 300, 400));
-        String Illustration = "北海道ローカル番組から全国区に放送された人気番組。\n"
-        		+ "水曜どうでしょうの代表的な企画といっても過言ではなく、非常に人気がある企画。3つをピックアップして体験してもらおうというゲームです。\n"
-        		+ "ゴールは北海道内に踏み入れればOK、スタートは東京（島根県の時もある）。\n"
-        		+ "\n"
-        		+ "操作\n"
-        		+ "・旅１，２，３（ボタン）\n"
-        		+ "1～3のそれぞれのボタンを1つ押してもらうとゲームスタート\n"
-        		+ "・サイコロ（ボタン）\n"
-        		+ "1～6のサイコロ、ボタンを押すと自動で数字が出てくる\n"
-        		+ "・次へ（ボタン）\n"
-        		+ "次へのゲームに移る。ゴールに着いた場合にはゴール画面に移る\n"
-        		+ "・タイトルに戻る（ボタン）\n"
-        		+ "項目選択にページに移動する\n"
-        		+ "\n"
-        		+ "旅1.アンスの取材で東京までせっかく来たんだから何かやってから帰りましょう企画第一弾(サイコロ1)\n"
-        		+ "概要：記念すべき放送第一回。後の作品にもある「3枚の切符」や嬉野Dの貴重な乗り物酔いシーン等、「ディレクターも含め4人旅」という姿勢がこの時既に出来上がっていた。また大泉が痔を患っている事が発覚し、「闘痔の旅」のきっかけともなった。\n"
-        		+ "\n"
-        		+ "旅2.サイコロ4～日本列島完全制覇～\n"
-        		+ "概要：前回までの「212市町村カントリーサインの旅2」がgdgdに終わったことから、\n"
-        		+ "「カントリーサインをもう一度やる」と大泉を騙して島根県出雲へ連行。\n"
-        		+ "道中、事前に伝えていた行き先とは真逆に進んでいたにもかかわらず、\n"
-        		+ "大泉は千歳の高速出口を出るまで気付かず、鈴井からサイコロキャラメルを差し出されてやっと気づいた。\n"
-        		+ "\n"
-        		+ "旅３東京幌サイコロの旅第5弾(サイコロ5～キングオブ深夜バス～)\n"
-                + "概要：乗車時間日本最長の“キング・オブ・深夜バス”「はかた号」との闘い。そしてサイコロ史上最も南下した企画。第一回の選択肢を全部深夜バスにした結果いきなりはかた号を引き、そこから地獄の戦いが幕を開ける。";
-        JLabel labelIllustration = new JLabel(Illustration);
-        panel02.add(labelIllustration);
+        String explanation = "<html>北海道ローカル番組から全国区に放送された人気番組。<br>水曜どうでしょうの代表的な企画といっても過言ではなく、非常に人気がある企画。3つをピックアップして体験してもらおうというゲームです。<br>"
+        		+ "<br>ゴールは北海道内に踏み入れればOK、スタートは東京（島根県の時もある）。<br>"
+        		+ "操作<br>"
+        		+ "・旅１，２，３（ボタン<br>"
+        		+ "1～3のそれぞれのボタンを1つ押してもらうとゲームスタート<br>"
+        		+ "・サイコロ（ボタン)<br>"
+        		+ "1～6のサイコロ、ボタンを押すと自動で数字が出てくる<br>"
+        		+ "・次へ（ボタン）<br>"
+        		+ "次へのゲームに移る。ゴールに着いた場合にはゴール画面に移る<br>"
+        		+ "・タイトルに戻る（ボタン）<br>"
+        		+ "項目選択にページに移動する<br>"
+        		+ "旅1.アンスの取材で東京までせっかく来たんだから何かやってから帰りましょう企画第一弾(サイコロ1)<br>"
+        		+ "概要：記念すべき放送第一回。後の作品にもある「3枚の切符」や嬉野Dの貴重な乗り物酔いシーン等、「ディレクターも含め4人旅」という姿勢がこの時既に出来上がっていた。また大泉が痔を患っている事が発覚し、「闘痔の旅」のきっかけともなった。<br>"
+        		+ "旅2.サイコロ4～日本列島完全制覇～<br>"
+        		+ "概要：前回までの「212市町村カントリーサインの旅2」がgdgdに終わったことから、「カントリーサインをもう一度やる」と大泉を騙して島根県出雲へ連行。道中、事前に伝えていた行き先とは真逆に進んでいたにもかかわらず、大泉は千歳の高速出口を出るまで気付かず、鈴井からサイコロキャラメルを差し出されてやっと気づいた。<br>"
+        		+ "旅３.東京幌サイコロの旅第5弾(サイコロ5～キングオブ深夜バス～)<br>"
+        		+ "概要：乗車時間日本最長の“キング・オブ・深夜バス”「はかた号」との闘い。そしてサイコロ史上最も南下した企画。第一回の選択肢を全部深夜バスにした結果いきなりはかた号を引き、そこから地獄の戦いが幕を開ける。</html>";
+        JLabel labelExplanation = new JLabel(explanation);
+        labelExplanation.setBackground(Color.RED);
+        LineBorder border = new LineBorder(Color.RED, 2, true);
+        labelExplanation.setBorder(border);
+        labelExplanation.setPreferredSize(new Dimension(700, 400));
+        panel02.add(labelExplanation);
         //移動ボタン
         String[] btnNames = {"旅1", "旅2", "旅3"};
         
@@ -128,7 +125,7 @@ public class TitleJF extends JFrame implements ActionListener{
         placeName.add( "盛岡");
         placeName.add( "下関");
         placeName.add( "羽田空港→札幌直行");
-        
+        //現在地表示用Switch文
         switch(dice) {
         case 1: 
         	test = placeName.get(1);
@@ -186,6 +183,9 @@ public class TitleJF extends JFrame implements ActionListener{
         for(int i = 0; i < placeName.size(); i++) {
         	tests = placeName.get(i);
         	JLabel labelDB = new JLabel(tests);
+        	labelDB.setBorder(new EmptyBorder(100, 500, 450, 500));
+        	//labelDB.setAlignmentY(0.5f);
+        	//labelDB.setAlignmentX(0.5f);
             panel04.add(labelDB);
         }
         
@@ -234,6 +234,8 @@ public class TitleJF extends JFrame implements ActionListener{
         //label10.setFont(new Font("", Font.PLAIN, 20));
         
         JLabel label12 = new JLabel(messeages02[3]);
+        label12.setAlignmentY(0.5f);
+        label12.setAlignmentX(0.5f);
         //DB画面配置デザインテスト用
         JPanel panel06 = new JPanel();
         panel06.setBackground(Color.BLUE);
@@ -245,7 +247,7 @@ public class TitleJF extends JFrame implements ActionListener{
         String btnName2 = "次へ";
         JButton btn05 = new JButton(btnName2);
         //btn05.setPreferredSize(new Dimension(150, 30)); 
-        btn05.setMaximumSize(new Dimension(150, 30));
+        //btn05.setMaximumSize(new Dimension(150, 30));
         btn05.setAlignmentY(0.5f);
         btn05.setAlignmentX(0.5f);
         btn05.addActionListener(this);

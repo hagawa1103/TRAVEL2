@@ -9,32 +9,56 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class TitleJF extends JFrame implements ActionListener{
 
 	JPanel cardPanel;
     CardLayout layout;
+    DefaultTableModel tableModel;
+    JLabel labelDice;//ダイスの目表示遷移確認用
+    JLabel labelCounter;//カウント表示遷移確認用
+    JLabel labelDestination;//行き先表示用
+    JLabel labelTransportation;//交通手段表示用
+    List<String> placeName = new ArrayList<>();//DB画面表示の値収納用
+    List<String> placeName2 = new ArrayList<>();//2枚目のDB画面表示の値収納用
+    
     private final String travel01 = "tabi1";
     private final String travel02 = "tabi2";
     private final String travel03 = "tabi3";
-    final int dice = new java.util.Random().nextInt(6);
     final String illustrate1DB = "";
     final String historicalFactDB = "";
     private final String diceRoll = "saikoro";
     private final String exit = "tugihe";
     private final String title = "taitorunimodoru";
+    
+    final String[] columnName = {"サイコロ","交通手段", "行き先"}; 
+    private String[][] traveldata = {{"1","ラ・フォーレ", "青森"},
+  	         {"2", "We ライナー", "新潟"},
+  	         {"3", "オレンジライナー",  "松山"},
+  	         {"4",  "らくちん", "盛岡"},
+  	         {"5", "ドリームふくふく", "下関"},
+  	         {"6","エアポートリムジン", "羽田空港→札幌直行"}};
+    
+    
     //サイコロテスト用
-    String test = "";
-    String tests;
+    String s = "";
+    String s1 = "";
+    String test = "東京";
+    String destination = "";
     int diceTest; 
+    int dice = 0;
+    int count = 1;
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
 		TitleJF frame = new TitleJF();
@@ -47,10 +71,11 @@ public class TitleJF extends JFrame implements ActionListener{
 	}
 	
 	public TitleJF() {
+		
 		// タイトル画面
         JPanel panel01 = new JPanel();
         
-        panel01.setBorder(new EmptyBorder(30, 500, 450, 500));
+        panel01.setBorder(new EmptyBorder(10, 500, 450, 500));
         String titleName = "[水曜どうでしょう サイコロの旅]";
         String messeage1 = "「↑押したらゲームスタート」";
         JLabel label = new JLabel(titleName);
@@ -59,9 +84,8 @@ public class TitleJF extends JFrame implements ActionListener{
         JLabel label1 = new JLabel(messeage1);
         //説明文表示用パネル
         JPanel panel02 = new JPanel();
-        panel02.setBackground(Color.BLUE);
-        panel02.setPreferredSize(new Dimension(700, 400));
-        //panel02.setBorder(new EmptyBorder(200, 400, 300, 400));
+        panel02.setBackground(Color.WHITE);
+        panel02.setPreferredSize(new Dimension(700, 450));
         String explanation = "<html>北海道ローカル番組から全国区に放送された人気番組。<br>水曜どうでしょうの代表的な企画といっても過言ではなく、非常に人気がある企画。3つをピックアップして体験してもらおうというゲームです。<br>"
         		+ "<br>ゴールは北海道内に踏み入れればOK、スタートは東京（島根県の時もある）。<br>"
         		+ "操作<br>"
@@ -76,31 +100,30 @@ public class TitleJF extends JFrame implements ActionListener{
         		+ "旅1.アンスの取材で東京までせっかく来たんだから何かやってから帰りましょう企画第一弾(サイコロ1)<br>"
         		+ "概要：記念すべき放送第一回。後の作品にもある「3枚の切符」や嬉野Dの貴重な乗り物酔いシーン等、「ディレクターも含め4人旅」という姿勢がこの時既に出来上がっていた。また大泉が痔を患っている事が発覚し、「闘痔の旅」のきっかけともなった。<br>"
         		+ "旅2.サイコロ4～日本列島完全制覇～<br>"
-        		+ "概要：前回までの「212市町村カントリーサインの旅2」がgdgdに終わったことから、「カントリーサインをもう一度やる」と大泉を騙して島根県出雲へ連行。道中、事前に伝えていた行き先とは真逆に進んでいたにもかかわらず、大泉は千歳の高速出口を出るまで気付かず、鈴井からサイコロキャラメルを差し出されてやっと気づいた。<br>"
+        		+ "概要：前回までの「212市町村カントリーサインの旅2」がgdgdに終わったことから、「カントリーサインをもう一度やる」と大泉を騙して島根県出雲へ連行。道中、事前に伝えていた行き先とは真逆に進んでいたにもかかわらず、大泉は千歳の高速出口を出るまで気付かず、鈴井からサイコロキャラメルを差し出されてやっと気づいた。<br>"
         		+ "旅３.東京幌サイコロの旅第5弾(サイコロ5～キングオブ深夜バス～)<br>"
-        		+ "概要：乗車時間日本最長の“キング・オブ・深夜バス”「はかた号」との闘い。そしてサイコロ史上最も南下した企画。第一回の選択肢を全部深夜バスにした結果いきなりはかた号を引き、そこから地獄の戦いが幕を開ける。</html>";
+        		+ "概要：乗車時間日本最長の“キング・オブ・深夜バス”「はかた号」との闘い。そしてサイコロ史上最も南下した企画。第一回の選択肢を全部深夜バスにした結果いきなりはかた号を引き、そこから地獄の戦いが幕を開ける。<br>"
+        		+ "※ゲーム画面の表だが番組のパネル再現のため全く関係ない内容をがでてくる場合があるのでご了承ください</html>";
         JLabel labelExplanation = new JLabel(explanation);
         labelExplanation.setBackground(Color.RED);
-        LineBorder border = new LineBorder(Color.RED, 2, true);
-        labelExplanation.setBorder(border);
-        labelExplanation.setPreferredSize(new Dimension(700, 400));
+        labelExplanation.setPreferredSize(new Dimension(700, 450));
         panel02.add(labelExplanation);
         //移動ボタン
         String[] btnNames = {"旅1", "旅2", "旅3"};
         
         JButton btn01 = new JButton(btnNames[0]);
         btn01.setPreferredSize(new Dimension(150, 30));
-        //btn01.setAlignmentY(0.5f);
+        
         btn01.addActionListener(this);
         btn01.setActionCommand(travel01);
         JButton btn02 = new JButton(btnNames[1]);
         btn02.setPreferredSize(new Dimension(150, 30));
-        //btn02.setAlignmentX(0.5f);
+       
         btn02.addActionListener(this);
         btn02.setActionCommand(travel02);
         JButton btn03 = new JButton(btnNames[2]);
         btn03.setPreferredSize(new Dimension(150, 30));
-        //btn03.setAlignmentX(0.5f);
+       
         btn03.addActionListener(this);
         btn03.setActionCommand(travel03);
         
@@ -112,82 +135,89 @@ public class TitleJF extends JFrame implements ActionListener{
         panel01.add(label1);
         // ゲーム画面
         JPanel panel03 = new JPanel();
-        //panel02.setBackground(Color.DARK_GRAY);
-        //panel03.setBorder(new EmptyBorder(100, 500, 450, 500));
         panel03.setLayout(new BoxLayout(panel03, BoxLayout.Y_AXIS));
-        //panel03.setMaximumSize(new Dimension(100, 150));
         
-        ArrayList<String> placeName = new ArrayList< String>();
-        //placeName.add(0, "ダミー");
-        placeName.add( "青森");
-        placeName.add( "新潟");
-        placeName.add( "松山");
-        placeName.add( "盛岡");
-        placeName.add( "下関");
-        placeName.add( "羽田空港→札幌直行");
-        //現在地表示用Switch文
-        switch(dice) {
-        case 1: 
-        	test = placeName.get(1);
-            break;
-        case 2:
-        	test = placeName.get(2);
-      	  break;
-        case 3:
-        	test = placeName.get(3);
-      	  break;
-        case 4:
-        	test = placeName.get(4);
-      	  break;
-        case 5:
-        	test = placeName.get(5);
-      	  break;
-        case 6:
-        	test = placeName.get(6);
-      	  break;
-      }
-        //for(int i = 0; i < placeName.size(); i++) {
-        	//tests = placeName.get(i);
-        	//System.out.println(placeName.get(i));
-        //}
-        
-        
-       
  
-        //String[] messeages01 = {"〇投目", "現在地○○", "↑", "ボタンでサイコロを振ってね"};
-        String messeage2 =  "投目";
-        String messeage3 = "現在地○○";
-        String messeage4 = "↑";
-        String messeage5 = "ボタンでサイコロを振ってね";
-        JLabel label4 = new JLabel(messeage2);
-        label4.setFont(new Font("", Font.PLAIN, 28));
-        label4.setAlignmentY(0.5f);
-        label4.setAlignmentX(0.5f);
-        JLabel label5 = new JLabel(messeage3);
-        label5.setAlignmentY(0.5f);
-        label5.setAlignmentX(0.5f);
-        JLabel label6 = new JLabel(messeage4);
+        final String[] messeages01 = {count + "投目", "現在地" + test, "↑", "ボタンでサイコロを振ってね"};
+        
+        this.labelCounter = new JLabel(messeages01[0]);
+        this.labelCounter.setFont(new Font("", Font.PLAIN, 28));
+        this.labelCounter.setAlignmentY(0.5f);
+        this.labelCounter.setAlignmentX(0.5f);
+        
+        this.labelDestination = new JLabel("東京");//現在地表示のlabel
+        this.labelDestination.setFont(new Font("", Font.PLAIN, 28));
+        this.labelDestination.setAlignmentY(0.5f);
+        this.labelDestination.setAlignmentX(0.5f);
+        
+        JLabel label6 = new JLabel(messeages01[2]);
         label6.setFont(new Font("", Font.PLAIN, 20));
         label6.setAlignmentY(0.5f);
         label6.setAlignmentX(0.5f);
-        JLabel label7 = new JLabel(messeage5);
+        JLabel label7 = new JLabel(messeages01[3]);
         label7.setFont(new Font("", Font.PLAIN, 20));
         label7.setAlignmentY(0.5f);
         label7.setAlignmentX(0.5f);
+        
         //DB画面表配置
         JPanel panel04 = new JPanel();
-        panel04.setBackground(Color.BLUE);
-        //panel04.setPreferredSize(new Dimension(100, 20));
-        panel04.setMaximumSize(new Dimension(300, 200));
-        //panel04.setBorder(new EmptyBorder(100, 500, 150, 500));
-        for(int i = 0; i < placeName.size(); i++) {
-        	tests = placeName.get(i);
-        	JLabel labelDB = new JLabel(tests);
-        	labelDB.setBorder(new EmptyBorder(100, 500, 450, 500));
-        	//labelDB.setAlignmentY(0.5f);
-        	//labelDB.setAlignmentX(0.5f);
-            panel04.add(labelDB);
+        panel04.setBackground(Color.WHITE);
+        panel04.setMaximumSize(new Dimension(450, 140));
+        
+        
+        //DB画面表示テスト用
+        
+        if(count == 1) {
+        	//行先表示用
+            placeName.add("ラ・フォーレ"); //サイコロの目1"青森"
+            placeName.add( "We ライナー"); //サイコロの目2"新潟"
+            placeName.add("オレンジライナー"); //サイコロの目3"松山"
+            placeName.add("らくちん"); //サイコロの目4"盛岡"
+            placeName.add("ドリームふくふく"); //サイコロの目5"下関"
+            placeName.add("エアポートリムジン"); //サイコロの目6"羽田空港→札幌直行"
+            
+           //地名表示用
+            placeName2.add( "青森"); //サイコロの目1
+            placeName2.add( "新潟"); //サイコロの目2
+            placeName2.add( "松山"); //サイコロの目3
+            placeName2.add( "盛岡");//サイコロの目4
+            placeName2.add( "下関"); //サイコロの目5
+            placeName2.add( "羽田空港→札幌直行"); //サイコロの目6
+        } else {
+        	//行先表示用
+            placeName.add("夢の直行便"); //サイコロの目1
+            placeName.add("ふぐが食べたい"); //サイコロの目2
+            placeName.add("ふりだしに戻る"); //サイコロの目3
+            placeName.add("魅惑のアイランド"); //サイコロの目4
+            placeName.add("同じ島でもこれは遠いぞ"); //サイコロの目5
+            placeName.add("謎のまち"); //サイコロの目6
+            
+          //地名表示用
+            placeName2.add( "札幌"); //サイコロの目1
+            placeName2.add( "下関"); //サイコロの目2
+            placeName2.add( "オレンジライナー新宿"); //サイコロの目3
+            placeName2.add( "小豆島");//サイコロの目4
+            placeName2.add( "鹿児島"); //サイコロの目5
+            placeName2.add( "臼杵"); //サイコロの目6
         }
+  
+        
+       
+        
+        
+       
+        //旅一覧表画面表示
+        tableModel= new DefaultTableModel(traveldata, columnName);
+        JTable table = new JTable(tableModel);
+        
+        JScrollPane sp = new JScrollPane(table);
+        sp.setPreferredSize(new Dimension(450, 130));
+        
+        panel04.add(sp);
+        
+        
+        
+       
         
         
         //サイコロ動作ボタン
@@ -199,8 +229,8 @@ public class TitleJF extends JFrame implements ActionListener{
         btn04.addActionListener(this);
         btn04.setActionCommand(diceRoll);
         
-        panel03.add(label4);
-        panel03.add(label5);
+        panel03.add(this.labelCounter);
+        panel03.add(labelDestination);
         panel03.add(panel04);
         panel03.add(btn04);
         panel03.add(label6);
@@ -210,65 +240,67 @@ public class TitleJF extends JFrame implements ActionListener{
         JPanel panel05 = new JPanel();
         panel05.setBackground(Color.LIGHT_GRAY);
         panel05.setLayout(new BoxLayout(panel05, BoxLayout.Y_AXIS));
-        //panel05.setBorder(new EmptyBorder(100, 500, 450, 500));
+            
+        String messeages02 =  "↑次へを押してね";
         
-        String[] messeages02 = {"出た目は" + dice, "行き先は" + test, "交通手段は","↑次へを押してね",};
+       
+        this.labelDice = new JLabel("");
+        this.labelDice.setFont(new Font("", Font.PLAIN, 28));
+        this.labelDice.setAlignmentY(0.5f);
+        this.labelDice.setAlignmentX(0.5f);
         
         
-        JLabel label8 = new JLabel(messeages02[0]);
-        label7.setFont(new Font("", Font.PLAIN, 28));
-        label7.setAlignmentY(0.5f);
-        label7.setAlignmentX(0.5f);
+        this.labelDestination = new JLabel("東京");
+        this.labelDestination.setFont(new Font("", Font.PLAIN, 28));
+        this.labelDestination.setAlignmentY(0.5f);
+        this.labelDestination.setAlignmentX(0.5f);
         
-        JLabel label9 = new JLabel(messeages02[1]);
-        label8.setFont(new Font("", Font.PLAIN, 28));
-        label8.setAlignmentY(0.5f);
-        label8.setAlignmentX(0.5f);
+        this.labelTransportation= new JLabel();
+        this.labelTransportation.setFont(new Font("", Font.PLAIN, 28));
+        this.labelTransportation.setAlignmentY(0.5f);
+        this.labelTransportation.setAlignmentX(0.5f);
         
-        JLabel label10 = new JLabel(messeages02[2]);
-        label9.setFont(new Font("", Font.PLAIN, 28));
-        label9.setAlignmentY(0.5f);
-        label9.setAlignmentX(0.5f);
         
-        //JLabel label11 = new JLabel(messeages02[0]);
-        //label10.setFont(new Font("", Font.PLAIN, 20));
-        
-        JLabel label12 = new JLabel(messeages02[3]);
+        JLabel label12 = new JLabel(messeages02);
         label12.setAlignmentY(0.5f);
         label12.setAlignmentX(0.5f);
+        
         //DB画面配置デザインテスト用
         JPanel panel06 = new JPanel();
-        panel06.setBackground(Color.BLUE);
-        //panel06.setPreferredSize(new Dimension(300, 200));
-        panel06.setMaximumSize(new Dimension(300, 200));
-        JLabel label00 = new JLabel(historicalFactDB);
+        panel06.setBackground(Color.WHITE);
+        panel06.setMaximumSize(new Dimension(500, 200));
+        
+        //文章表示確認テスト用
+        String histroy = "<html>オレンジライナー　松山行き。東京から西に900キロメートル、完全に北海道とは逆側。<br>"
+        		           + "バスで12時間30分<br>"
+        		           + "初っ端にこんな最悪の目を出した鈴井貴之さんは後に「ダメ人間」の称号を得ることになります。<br>"
+        		           + "閑話休題、松山に行くことになったメンバー4人。新宿から松山まではバスで12時間の長丁場、既に鈴井さんは弱音を吐き始めてしまっています。<br>"
+        		           + "12時間が経過し午前7時55分、松山に到着します。</html>";
+        JLabel label00 = new JLabel(histroy);
+        label00.setPreferredSize(new Dimension(500, 200));
         panel06.add(label00);
 
         String btnName2 = "次へ";
         JButton btn05 = new JButton(btnName2);
-        //btn05.setPreferredSize(new Dimension(150, 30)); 
-        //btn05.setMaximumSize(new Dimension(150, 30));
         btn05.setAlignmentY(0.5f);
         btn05.setAlignmentX(0.5f);
         btn05.addActionListener(this);
         btn05.setActionCommand(exit);
-        //btn05.addActionListener(this);
-        //btn05.setActionCommand(diceRoll);
  
-        panel05.add(label8);
-        panel05.add(label9);
-        panel05.add(label10);
+        panel05.add(this.labelDice);
+        panel05.add(labelDestination);
+        panel05.add(labelTransportation);
         panel05.add(panel06);
         panel05.add(btn05);
-        //panel05.add(label11);
         panel05.add(label12);
+        
         //タイトルに戻る画面
         JPanel panel07 = new JPanel();
         panel07.setBackground(Color.LIGHT_GRAY);
         panel07.setBorder(new EmptyBorder(100, 400, 500, 400));
         
-        String messeage13 = "長旅お疲れ様でした";
-        String messeage14 = "本編が気になる方は是非DVD・BDが出ているので是非見てくだい";
+        final String messeage13 = "長旅お疲れ様でした";
+        final String messeage14 = "本編が気になる方は是非DVD・BDが出ているので是非見てくだい";
         
         JLabel label13 = new JLabel(messeage13);
         label13.setFont(new Font("", Font.PLAIN, 28));
@@ -295,65 +327,106 @@ public class TitleJF extends JFrame implements ActionListener{
         cardPanel.add(panel05, exit);
         cardPanel.add(panel07, title);
         
-        // カード移動用ボタン
-        //JButton firstButton = new JButton();
-        //firstButton.addActionListener(this);
-        //firstButton.setActionCommand(travel01);
-
-        //JButton secondButton = new JButton();
-        //secondButton.addActionListener(this);
-        //secondButton.setActionCommand(diceRoll);
-
-        //JButton thirdButton = new JButton();
-        //thirdButton.addActionListener(this);
-        //thirdButton.setActionCommand(exit);
-        
-        //JButton forceButton = new JButton();
-        //forceButton.addActionListener(this);
-        //forceButton.setActionCommand(title);
-
-        //JPanel btnPanel = new JPanel();
-        //btnPanel.add(firstButton);
-        //btnPanel.add(secondButton);
-        //btnPanel.add(thirdButton);
-        //btnPanel.add(forceButton);
 
         // cardPanelとカード移動用ボタンをJFrameに配置
         Container contentPane = getContentPane();
         contentPane.add(cardPanel, BorderLayout.CENTER);
-        //contentPane.add(btnPanel, BorderLayout.PAGE_END);
+
 	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO 自動生成されたメソッド・スタブ
 		String cmd = e.getActionCommand();
+		
+		if(cmd.equals(diceRoll)) {
+			this.count++;
+			this.dice = new java.util.Random().nextInt(6)+1;
+			String s = String.valueOf(this.dice);
+			this.labelDice.setText("出た目は" + s);
+			String s1 = String.valueOf(this.count);
+			this.labelCounter.setText(s1 + "投目");
+			//System.out.println(this.count);
+			
+			//現在地表示用Switch文
+			
+			
+			switch(this.dice) {
+	        case 1:
+	        	String d = traveldata[0][2];
+	        	String t = traveldata[0][1];
+	        	this.labelDestination.setText("行き先は" + d);
+	        	this.labelTransportation.setText("交通手段は" + t);
+	            break;
+	        case 2:
+	        	String d1 = traveldata[1][2];
+	        	String t1 = traveldata[1][1];
+	        	this.labelDestination.setText("行き先は" + d1);
+	        	this.labelTransportation.setText("交通手段は" + t1);
+	      	    break;
+	        case 3:
+	        	String d2 = traveldata[2][2];
+	        	String t2 = traveldata[2][1];
+	        	this.labelDestination.setText("行き先は" + d2);
+	        	this.labelTransportation.setText("交通手段は" + t2);
+	      	    break;
+	        case 4:
+	        	String d3 = traveldata[3][2];
+	        	String t3 = traveldata[3][1];
+	        	this.labelDestination.setText("行き先は" + d3);
+	        	this.labelTransportation.setText("交通手段は" + t3);
+	      	    break;
+	        case 5:
+	        	String d4 = traveldata[4][2];
+	        	String t4 = traveldata[4][1];
+	        	this.labelDestination.setText("行き先は" + d4);
+	        	this.labelTransportation.setText("交通手段は" + t4);
+	      	    break;
+	        case 6:
+	        	String d5 = traveldata[5][2];
+	        	String t5 = traveldata[5][1];
+	        	this.labelDestination.setText("行き先は" + d5);
+	        	this.labelTransportation.setText("交通手段は" + t5);
+	      	    break;
+	        }
+			layout.show(cardPanel, exit);
+			
+        }
+		
         if (cmd.equals(title)){
 		  layout.first(cardPanel);
 		}else if (cmd.equals(travel01)){
-		  layout.next(cardPanel);
+		  layout.show(cardPanel, diceRoll);
 		}else if (cmd.equals(travel02)){
-		  layout.next(cardPanel);
+		  layout.show(cardPanel, diceRoll);
 		}else if (cmd.equals(travel03)){
-		  layout.next(cardPanel);
+		  layout.show(cardPanel, diceRoll);
 		}else if (cmd.equals(exit)){
-		  layout.next(cardPanel);
-		}else if (cmd.equals(diceRoll)){
-		  layout.next(cardPanel);
+			if (this.dice == 6) {
+				layout.show(cardPanel, title);
+				this.count = 1;
+				String counter = String.valueOf(this.count);
+				this.labelCounter.setText(counter + "投目");
+			} else if(this.dice == 1) {
+				layout.show(cardPanel, title);
+				this.count = 1;
+				String counter = String.valueOf(this.count);
+				this.labelCounter.setText(counter + "投目");
+			} else {
+				layout.show(cardPanel, diceRoll);
+			}
+			
 		}
-        //layout.show(cardPanel, cmd);
-        diceTest = dice;
-        System.out.println(diceTest);
-        //int count =0;
-        //testNember = count++;
+        
         
         
 	}
 	
-	
+}	
 	
 		
 	
 
-}
+
 

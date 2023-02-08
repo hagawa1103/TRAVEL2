@@ -28,7 +28,8 @@ public class TitleJF extends JFrame implements ActionListener{
     DefaultTableModel tableModel;
     JLabel labelDice;//ダイスの目表示遷移確認用
     JLabel labelCounter;//カウント表示遷移確認用
-    JLabel labelDestination;//行き先表示用
+    JLabel labelGameDestination;//ゲーム画面現在地表示用
+    JLabel labelDestination;//結果画面行き先表示用
     JLabel labelTransportation;//交通手段表示用
     List<String> placeName = new ArrayList<>();//DB画面表示の値収納用
     List<String> placeName2 = new ArrayList<>();//2枚目のDB画面表示の値収納用
@@ -62,7 +63,7 @@ public class TitleJF extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
 		TitleJF frame = new TitleJF();
-        frame.setTitle("タイトル画面");
+        frame.setTitle("");
         frame.setSize(900, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -73,19 +74,19 @@ public class TitleJF extends JFrame implements ActionListener{
 	public TitleJF() {
 		
 		// タイトル画面
-        JPanel panel01 = new JPanel();
+        JPanel panelTitle = new JPanel();
         
-        panel01.setBorder(new EmptyBorder(10, 500, 450, 500));
+        panelTitle.setBorder(new EmptyBorder(10, 500, 450, 500));
         String titleName = "[水曜どうでしょう サイコロの旅]";
         String messeage1 = "「↑押したらゲームスタート」";
-        JLabel label = new JLabel(titleName);
-        label.setFont(new Font("", Font.PLAIN, 28));
+        JLabel labelTitle = new JLabel(titleName);
+        labelTitle.setFont(new Font("", Font.PLAIN, 28));
         
-        JLabel label1 = new JLabel(messeage1);
+        JLabel labelMesseage1 = new JLabel(messeage1);
         //説明文表示用パネル
-        JPanel panel02 = new JPanel();
-        panel02.setBackground(Color.WHITE);
-        panel02.setPreferredSize(new Dimension(700, 450));
+        JPanel panelExplanation = new JPanel();
+        panelExplanation.setBackground(Color.WHITE);
+        panelExplanation.setPreferredSize(new Dimension(700, 450));
         String explanation = "<html>北海道ローカル番組から全国区に放送された人気番組。<br>水曜どうでしょうの代表的な企画といっても過言ではなく、非常に人気がある企画。3つをピックアップして体験してもらおうというゲームです。<br>"
         		+ "<br>ゴールは北海道内に踏み入れればOK、スタートは東京（島根県の時もある）。<br>"
         		+ "操作<br>"
@@ -107,48 +108,47 @@ public class TitleJF extends JFrame implements ActionListener{
         JLabel labelExplanation = new JLabel(explanation);
         labelExplanation.setBackground(Color.RED);
         labelExplanation.setPreferredSize(new Dimension(700, 450));
-        panel02.add(labelExplanation);
+        panelExplanation.add(labelExplanation);
         //移動ボタン
         String[] btnNames = {"旅1", "旅2", "旅3"};
         
-        JButton btn01 = new JButton(btnNames[0]);
-        btn01.setPreferredSize(new Dimension(150, 30));
+        JButton btnTravel01 = new JButton(btnNames[0]);
+        btnTravel01.setPreferredSize(new Dimension(150, 30));
+        btnTravel01.addActionListener(this);
+        btnTravel01.setActionCommand(travel01);
         
-        btn01.addActionListener(this);
-        btn01.setActionCommand(travel01);
-        JButton btn02 = new JButton(btnNames[1]);
-        btn02.setPreferredSize(new Dimension(150, 30));
-       
-        btn02.addActionListener(this);
-        btn02.setActionCommand(travel02);
-        JButton btn03 = new JButton(btnNames[2]);
-        btn03.setPreferredSize(new Dimension(150, 30));
-       
-        btn03.addActionListener(this);
-        btn03.setActionCommand(travel03);
+        JButton btnTravel02 = new JButton(btnNames[1]);
+        btnTravel02.setPreferredSize(new Dimension(150, 30));
+        btnTravel02.addActionListener(this);
+        btnTravel02.setActionCommand(travel02);
         
-        panel01.add(label);
-        panel01.add(panel02);
-        panel01.add(btn01);
-        panel01.add(btn02);
-        panel01.add(btn03);
-        panel01.add(label1);
+        JButton btnTravel03 = new JButton(btnNames[2]);
+        btnTravel03.setPreferredSize(new Dimension(150, 30));
+        btnTravel03.addActionListener(this);
+        btnTravel03.setActionCommand(travel03);
+        
+        panelTitle.add(labelTitle);
+        panelTitle.add(panelExplanation);
+        panelTitle.add(btnTravel01);
+        panelTitle.add(btnTravel02);
+        panelTitle.add(btnTravel03);
+        panelTitle.add(labelMesseage1);
         // ゲーム画面
-        JPanel panel03 = new JPanel();
-        panel03.setLayout(new BoxLayout(panel03, BoxLayout.Y_AXIS));
+        JPanel panelGame = new JPanel();
+        panelGame.setLayout(new BoxLayout(panelGame, BoxLayout.Y_AXIS));
         
  
-        final String[] messeages01 = {count + "投目", "現在地" + test, "↑", "ボタンでサイコロを振ってね"};
+        final String[] messeages01 = {count + "投目", "現在地東京", "↑", "ボタンでサイコロを振ってね"};
         
         this.labelCounter = new JLabel(messeages01[0]);
         this.labelCounter.setFont(new Font("", Font.PLAIN, 28));
         this.labelCounter.setAlignmentY(0.5f);
         this.labelCounter.setAlignmentX(0.5f);
         
-        this.labelDestination = new JLabel("東京");//現在地表示のlabel
-        this.labelDestination.setFont(new Font("", Font.PLAIN, 28));
-        this.labelDestination.setAlignmentY(0.5f);
-        this.labelDestination.setAlignmentX(0.5f);
+        this.labelGameDestination = new JLabel("現在地東京");//現在地表示のlabel
+        this.labelGameDestination.setFont(new Font("", Font.PLAIN, 20));
+        this.labelGameDestination.setAlignmentY(0.5f);
+        this.labelGameDestination.setAlignmentX(0.5f);
         
         JLabel label6 = new JLabel(messeages01[2]);
         label6.setFont(new Font("", Font.PLAIN, 20));
@@ -209,6 +209,7 @@ public class TitleJF extends JFrame implements ActionListener{
         //旅一覧表画面表示
         tableModel= new DefaultTableModel(traveldata, columnName);
         JTable table = new JTable(tableModel);
+        table.setEnabled(false);
         
         JScrollPane sp = new JScrollPane(table);
         sp.setPreferredSize(new Dimension(450, 130));
@@ -229,12 +230,12 @@ public class TitleJF extends JFrame implements ActionListener{
         btn04.addActionListener(this);
         btn04.setActionCommand(diceRoll);
         
-        panel03.add(this.labelCounter);
-        panel03.add(labelDestination);
-        panel03.add(panel04);
-        panel03.add(btn04);
-        panel03.add(label6);
-        panel03.add(label7);
+        panelGame.add(this.labelCounter);
+        panelGame.add(labelGameDestination);
+        panelGame.add(panel04);
+        panelGame.add(btn04);
+        panelGame.add(label6);
+        panelGame.add(label7);
 
         // 結果画面
         JPanel panel05 = new JPanel();
@@ -250,7 +251,7 @@ public class TitleJF extends JFrame implements ActionListener{
         this.labelDice.setAlignmentX(0.5f);
         
         
-        this.labelDestination = new JLabel("東京");
+        this.labelDestination = new JLabel("");
         this.labelDestination.setFont(new Font("", Font.PLAIN, 28));
         this.labelDestination.setAlignmentY(0.5f);
         this.labelDestination.setAlignmentX(0.5f);
@@ -322,8 +323,8 @@ public class TitleJF extends JFrame implements ActionListener{
         layout = new CardLayout();
         cardPanel.setLayout(layout);
 
-        cardPanel.add(panel01, travel01);
-        cardPanel.add(panel03, diceRoll);
+        cardPanel.add(panelTitle, travel01);
+        cardPanel.add(panelGame, diceRoll);
         cardPanel.add(panel05, exit);
         cardPanel.add(panel07, title);
         
@@ -347,7 +348,7 @@ public class TitleJF extends JFrame implements ActionListener{
 			this.labelDice.setText("出た目は" + s);
 			String s1 = String.valueOf(this.count);
 			this.labelCounter.setText(s1 + "投目");
-			//System.out.println(this.count);
+			
 			
 			//現在地表示用Switch文
 			
@@ -356,36 +357,42 @@ public class TitleJF extends JFrame implements ActionListener{
 	        case 1:
 	        	String d = traveldata[0][2];
 	        	String t = traveldata[0][1];
+	        	this.labelGameDestination.setText("行き先は" + d);
 	        	this.labelDestination.setText("行き先は" + d);
 	        	this.labelTransportation.setText("交通手段は" + t);
 	            break;
 	        case 2:
 	        	String d1 = traveldata[1][2];
 	        	String t1 = traveldata[1][1];
+	        	this.labelGameDestination.setText("現在地" + d1);
 	        	this.labelDestination.setText("行き先は" + d1);
 	        	this.labelTransportation.setText("交通手段は" + t1);
 	      	    break;
 	        case 3:
 	        	String d2 = traveldata[2][2];
 	        	String t2 = traveldata[2][1];
+	        	this.labelGameDestination.setText("現在地" + d2);
 	        	this.labelDestination.setText("行き先は" + d2);
 	        	this.labelTransportation.setText("交通手段は" + t2);
 	      	    break;
 	        case 4:
 	        	String d3 = traveldata[3][2];
 	        	String t3 = traveldata[3][1];
+	        	this.labelGameDestination.setText("現在地" + d3);
 	        	this.labelDestination.setText("行き先は" + d3);
 	        	this.labelTransportation.setText("交通手段は" + t3);
 	      	    break;
 	        case 5:
 	        	String d4 = traveldata[4][2];
 	        	String t4 = traveldata[4][1];
+	        	this.labelGameDestination.setText("現在地" + d4);
 	        	this.labelDestination.setText("行き先は" + d4);
 	        	this.labelTransportation.setText("交通手段は" + t4);
 	      	    break;
 	        case 6:
 	        	String d5 = traveldata[5][2];
 	        	String t5 = traveldata[5][1];
+	        	this.labelGameDestination.setText("現在地" + d5);
 	        	this.labelDestination.setText("行き先は" + d5);
 	        	this.labelTransportation.setText("交通手段は" + t5);
 	      	    break;
@@ -399,20 +406,17 @@ public class TitleJF extends JFrame implements ActionListener{
 		}else if (cmd.equals(travel01)){
 		  layout.show(cardPanel, diceRoll);
 		}else if (cmd.equals(travel02)){
+		  this.labelGameDestination.setText("現在地出雲");
 		  layout.show(cardPanel, diceRoll);
 		}else if (cmd.equals(travel03)){
 		  layout.show(cardPanel, diceRoll);
 		}else if (cmd.equals(exit)){
-			if (this.dice == 6) {
+			if (this.dice == 6 || this.dice == 1) {
 				layout.show(cardPanel, title);
 				this.count = 1;
 				String counter = String.valueOf(this.count);
 				this.labelCounter.setText(counter + "投目");
-			} else if(this.dice == 1) {
-				layout.show(cardPanel, title);
-				this.count = 1;
-				String counter = String.valueOf(this.count);
-				this.labelCounter.setText(counter + "投目");
+				this.labelGameDestination.setText("現在地東京");
 			} else {
 				layout.show(cardPanel, diceRoll);
 			}

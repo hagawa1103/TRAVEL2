@@ -55,9 +55,6 @@ public class TitleJF extends JFrame implements ActionListener{
     //サイコロテスト用
     String s = "";
     String s1 = "";
-    String test = "東京";
-    String destination = "";
-    int diceTest; 
     int dice = 0;
     int count = 1;
 	public static void main(String[] args) {
@@ -138,23 +135,24 @@ public class TitleJF extends JFrame implements ActionListener{
         panelGame.setLayout(new BoxLayout(panelGame, BoxLayout.Y_AXIS));
         
  
-        final String[] messeages01 = {count + "投目", "現在地東京", "↑", "ボタンでサイコロを振ってね"};
+        final String[] messeages01 = { "現在地東京", "↑", "ボタンでサイコロを振ってね"};
         
         this.labelCounter = new JLabel(messeages01[0]);
         this.labelCounter.setFont(new Font("", Font.PLAIN, 28));
         this.labelCounter.setAlignmentY(0.5f);
         this.labelCounter.setAlignmentX(0.5f);
         
-        this.labelGameDestination = new JLabel("現在地東京");//現在地表示のlabel
+        this.labelGameDestination = new JLabel(messeages01[0]);//現在地表示のlabel
         this.labelGameDestination.setFont(new Font("", Font.PLAIN, 20));
         this.labelGameDestination.setAlignmentY(0.5f);
         this.labelGameDestination.setAlignmentX(0.5f);
         
-        JLabel label6 = new JLabel(messeages01[2]);
-        label6.setFont(new Font("", Font.PLAIN, 20));
-        label6.setAlignmentY(0.5f);
-        label6.setAlignmentX(0.5f);
-        JLabel label7 = new JLabel(messeages01[3]);
+        JLabel labelUpArrow = new JLabel(messeages01[1]);
+        labelUpArrow.setFont(new Font("", Font.PLAIN, 20));
+        labelUpArrow.setAlignmentY(0.5f);
+        labelUpArrow.setAlignmentX(0.5f);
+        
+        JLabel label7 = new JLabel(messeages01[2]);
         label7.setFont(new Font("", Font.PLAIN, 20));
         label7.setAlignmentY(0.5f);
         label7.setAlignmentX(0.5f);
@@ -234,7 +232,7 @@ public class TitleJF extends JFrame implements ActionListener{
         panelGame.add(labelGameDestination);
         panelGame.add(panel04);
         panelGame.add(btn04);
-        panelGame.add(label6);
+        panelGame.add(labelUpArrow);
         panelGame.add(label7);
 
         // 結果画面
@@ -271,7 +269,7 @@ public class TitleJF extends JFrame implements ActionListener{
         panel06.setBackground(Color.WHITE);
         panel06.setMaximumSize(new Dimension(500, 200));
         
-        //文章表示確認テスト用
+        //文章表示確認テスト用,行き先が松山の時だけ表示
         String histroy = "<html>オレンジライナー　松山行き。東京から西に900キロメートル、完全に北海道とは逆側。<br>"
         		           + "バスで12時間30分<br>"
         		           + "初っ端にこんな最悪の目を出した鈴井貴之さんは後に「ダメ人間」の称号を得ることになります。<br>"

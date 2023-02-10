@@ -137,7 +137,7 @@ public class TitleJF extends JFrame implements ActionListener{
  
         final String[] messeages01 = { "現在地東京", "↑", "ボタンでサイコロを振ってね"};
         
-        this.labelCounter = new JLabel(messeages01[0]);
+        this.labelCounter = new JLabel("");
         this.labelCounter.setFont(new Font("", Font.PLAIN, 28));
         this.labelCounter.setAlignmentY(0.5f);
         this.labelCounter.setAlignmentX(0.5f);
@@ -162,47 +162,7 @@ public class TitleJF extends JFrame implements ActionListener{
         panel04.setBackground(Color.WHITE);
         panel04.setMaximumSize(new Dimension(450, 140));
         
-        
-        //DB画面表示テスト用
-        
-        if(count == 1) {
-        	//行先表示用
-            placeName.add("ラ・フォーレ"); //サイコロの目1"青森"
-            placeName.add( "We ライナー"); //サイコロの目2"新潟"
-            placeName.add("オレンジライナー"); //サイコロの目3"松山"
-            placeName.add("らくちん"); //サイコロの目4"盛岡"
-            placeName.add("ドリームふくふく"); //サイコロの目5"下関"
-            placeName.add("エアポートリムジン"); //サイコロの目6"羽田空港→札幌直行"
-            
-           //地名表示用
-            placeName2.add( "青森"); //サイコロの目1
-            placeName2.add( "新潟"); //サイコロの目2
-            placeName2.add( "松山"); //サイコロの目3
-            placeName2.add( "盛岡");//サイコロの目4
-            placeName2.add( "下関"); //サイコロの目5
-            placeName2.add( "羽田空港→札幌直行"); //サイコロの目6
-        } else {
-        	//行先表示用
-            placeName.add("夢の直行便"); //サイコロの目1
-            placeName.add("ふぐが食べたい"); //サイコロの目2
-            placeName.add("ふりだしに戻る"); //サイコロの目3
-            placeName.add("魅惑のアイランド"); //サイコロの目4
-            placeName.add("同じ島でもこれは遠いぞ"); //サイコロの目5
-            placeName.add("謎のまち"); //サイコロの目6
-            
-          //地名表示用
-            placeName2.add( "札幌"); //サイコロの目1
-            placeName2.add( "下関"); //サイコロの目2
-            placeName2.add( "オレンジライナー新宿"); //サイコロの目3
-            placeName2.add( "小豆島");//サイコロの目4
-            placeName2.add( "鹿児島"); //サイコロの目5
-            placeName2.add( "臼杵"); //サイコロの目6
-        }
-  
-        
-       
-        
-        
+   
        
         //旅一覧表画面表示
         tableModel= new DefaultTableModel(traveldata, columnName);
@@ -349,8 +309,6 @@ public class TitleJF extends JFrame implements ActionListener{
 			
 			
 			//現在地表示用Switch文
-			
-			
 			switch(this.dice) {
 	        case 1:
 	        	String d = traveldata[0][2];

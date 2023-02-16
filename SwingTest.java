@@ -59,7 +59,7 @@ public class SwingTest extends JFrame implements ActionListener{
     
 
 	  public static void main(String[] args){
-		  SwingTest test = new SwingTest();
+		SwingTest test = new SwingTest();
 		 
 
 	    test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,11 +124,6 @@ public class SwingTest extends JFrame implements ActionListener{
 	    p.add(table1);
 	    p.add(btn);
 	    
-	    cardPanel = new JPanel();
-        layout = new CardLayout();
-        cardPanel.setLayout(layout);
-	    
-	    
 	    
 	    Container contentPane = getContentPane();
         contentPane.add(cardPanel, BorderLayout.CENTER);
@@ -142,36 +137,7 @@ public class SwingTest extends JFrame implements ActionListener{
 	    getContentPane().add(p);
 	  }
 	  
-	  public class TlavelData2 {
-		  //public
-	  }
-	  
-	  /* class TravelDefaultTableModel extends DefaultTableModel {
-		   
-		@SuppressWarnings("rawtypes")
-		protected Vector<Vector>    dataVector;   
-		private Object[][] traveldata;
-		private Object[] columnName;
-
-		TravelDefaultTableModel(Object[][] data, Object[] columnNames) {
-			this.traveldata = data;
-			this.columnName = columnNames;
-			
-			
-			   
-		   }
-		
-		public void setData(Object[][] data, Object[] columnNames) {
-			//setDataVector(convertToVector(data), convertToVector(columnNames));
-		}
-		
-		public Vector<Vector> getData() {
-			return dataVector;
-			
-		}
-		  
-		   
-	  }*/
+	 
 	 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -183,47 +149,38 @@ public class SwingTest extends JFrame implements ActionListener{
 		String s2 = String.valueOf(this.count);
 		label.setText(s1);
 		this.label2.setText(s2);
-		tableModel1.setValueAt("2勝", 1, 1);
+		
 	    
 		
 		if(count == 2) {
-			//layout.show(cardPanel, num);
-		}
-		
-		//行先表示用
-       placeName.add("夢の直行便"); //サイコロの目1
-       placeName.add("ふぐが食べたい"); //サイコロの目2
-       placeName.add("ふりだしに戻る"); //サイコロの目3
-       placeName.add("魅惑のアイランド"); //サイコロの目4
-       placeName.add("同じ島でもこれは遠いぞ"); //サイコロの目5
-       placeName.add("謎のまち"); //サイコロの目6
-       
-     //地名表示用
-       placeName2.add( "札幌"); //サイコロの目1
-       placeName2.add( "下関"); //サイコロの目2
-       placeName2.add( "オレンジライナー新宿"); //サイコロの目3
-       placeName2.add( "小豆島");//サイコロの目4
-       placeName2.add( "鹿児島"); //サイコロの目5
-       placeName2.add( "臼杵"); //サイコロの目6
-		
-           
 			
-			for(int i = 0; i < placeName.size(); i ++) {
-				for(int j = 0; j < placeName2.size(); j++) {
-					String test = placeName.get(i);
-					System.out.println(test);
-					String test2 = placeName2.get(j);
-					System.out.println(test2);
-	                //String[][] traveldata3 = {{test, test2}};
-	                //tableModel= new DefaultTableModel(traveldata3, columnName);
-	                //JTable table = new JTable(tableModel);
-	                //table.setValueAt(2, 1, 1);
-	                //JScrollPane sp = new JScrollPane(table);
-	                //JPanel p = new JPanel();
-	        	    //p.add(sp);
-	                
-				}
-			}
+		 //行先表示用
+         placeName.add("夢の直行便"); //サイコロの目1
+         placeName.add("ふぐが食べたい"); //サイコロの目2
+         placeName.add("ふりだしに戻る"); //サイコロの目3
+         placeName.add("魅惑のアイランド"); //サイコロの目4
+         placeName.add("同じ島でもこれは遠いぞ"); //サイコロの目5
+         placeName.add("謎のまち"); //サイコロの目6
+       
+         //地名表示用
+         placeName2.add( "札幌"); //サイコロの目1
+         placeName2.add( "下関"); //サイコロの目2
+         placeName2.add( "オレンジライナー新宿"); //サイコロの目3
+         placeName2.add( "小豆島");//サイコロの目4
+         placeName2.add( "鹿児島"); //サイコロの目5
+         placeName2.add( "臼杵"); //サイコロの目6
+         
+         
+         for(int i = 0; i < placeName.size(); i++) {
+        	 tableModel1.setValueAt(placeName.get(i), i, 2);
+             tableModel1.setValueAt(placeName2.get(i), i, 1); 
+         }
+        	 
+       } else {
+    	   tableModel1.setDataVector(traveldata1, columnName);
+       }
+			
+		
 			
 		
 		

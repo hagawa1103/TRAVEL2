@@ -25,20 +25,19 @@ public class TitleJF extends JFrame implements ActionListener{
 
 	JPanel cardPanel;
     CardLayout layout;
-    DefaultTableModel tableModel;
+    DefaultTableModel TravelTableModel;
     JLabel labelDice;//ダイスの目表示遷移確認用
     JLabel labelCounter;//カウント表示遷移確認用
     JLabel labelGameDestination;//ゲーム画面現在地表示用
     JLabel labelDestination;//結果画面行き先表示用
     JLabel labelTransportation;//交通手段表示用
     List<String> placeName = new ArrayList<>();//DB画面表示の値収納用
-    List<String> placeName2 = new ArrayList<>();//2枚目のDB画面表示の値収納用
-    
+    List<String> placeName2 = new ArrayList<>();
+    List<String> placeName3 = new ArrayList<>();
+    List<String> placeName4 = new ArrayList<>();
     private final String travel01 = "tabi1";
     private final String travel02 = "tabi2";
     private final String travel03 = "tabi3";
-    final String illustrate1DB = "";
-    final String historicalFactDB = "";
     private final String diceRoll = "saikoro";
     private final String exit = "tugihe";
     private final String title = "taitorunimodoru";
@@ -52,11 +51,12 @@ public class TitleJF extends JFrame implements ActionListener{
   	         {"6","エアポートリムジン", "羽田空港→札幌直行"}};
     
     
+    
     //サイコロテスト用
     String s = "";
     String s1 = "";
     int dice = 0;
-    int count = 1;
+    int count = 0;
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
 		TitleJF frame = new TitleJF();
@@ -135,24 +135,24 @@ public class TitleJF extends JFrame implements ActionListener{
         panelGame.setLayout(new BoxLayout(panelGame, BoxLayout.Y_AXIS));
         
  
-        final String[] messeages01 = { "現在地東京", "↑", "ボタンでサイコロを振ってね"};
+        final String[] messeages01 = { "1投目", "現在地東京", "↑", "ボタンでサイコロを振ってね"};
         
-        this.labelCounter = new JLabel("");
+        this.labelCounter = new JLabel(messeages01[0]);
         this.labelCounter.setFont(new Font("", Font.PLAIN, 28));
         this.labelCounter.setAlignmentY(0.5f);
         this.labelCounter.setAlignmentX(0.5f);
         
-        this.labelGameDestination = new JLabel(messeages01[0]);//現在地表示のlabel
+        this.labelGameDestination = new JLabel(messeages01[1]);//現在地表示のlabel
         this.labelGameDestination.setFont(new Font("", Font.PLAIN, 20));
         this.labelGameDestination.setAlignmentY(0.5f);
         this.labelGameDestination.setAlignmentX(0.5f);
         
-        JLabel labelUpArrow = new JLabel(messeages01[1]);
+        JLabel labelUpArrow = new JLabel(messeages01[2]);
         labelUpArrow.setFont(new Font("", Font.PLAIN, 20));
         labelUpArrow.setAlignmentY(0.5f);
         labelUpArrow.setAlignmentX(0.5f);
         
-        JLabel label7 = new JLabel(messeages01[2]);
+        JLabel label7 = new JLabel(messeages01[3]);
         label7.setFont(new Font("", Font.PLAIN, 20));
         label7.setAlignmentY(0.5f);
         label7.setAlignmentX(0.5f);
@@ -165,8 +165,8 @@ public class TitleJF extends JFrame implements ActionListener{
    
        
         //旅一覧表画面表示
-        tableModel= new DefaultTableModel(traveldata, columnName);
-        JTable table = new JTable(tableModel);
+        TravelTableModel= new DefaultTableModel(traveldata, columnName);
+        JTable table = new JTable(TravelTableModel);
         table.setEnabled(false);
         
         JScrollPane sp = new JScrollPane(table);
@@ -299,6 +299,17 @@ public class TitleJF extends JFrame implements ActionListener{
 		// TODO 自動生成されたメソッド・スタブ
 		String cmd = e.getActionCommand();
 		
+		if (cmd.equals(title)){
+			  layout.first(cardPanel);
+			}else if (cmd.equals(travel01)){
+			  layout.show(cardPanel, diceRoll);
+			}else if (cmd.equals(travel02)){
+			  this.labelGameDestination.setText("現在地出雲");
+			  layout.show(cardPanel, diceRoll);
+			}else if (cmd.equals(travel03)){
+			  layout.show(cardPanel, diceRoll);
+			}
+		
 		if(cmd.equals(diceRoll)) {
 			this.count++;
 			this.dice = new java.util.Random().nextInt(6)+1;
@@ -357,27 +368,73 @@ public class TitleJF extends JFrame implements ActionListener{
 			
         }
 		
-        if (cmd.equals(title)){
-		  layout.first(cardPanel);
-		}else if (cmd.equals(travel01)){
-		  layout.show(cardPanel, diceRoll);
-		}else if (cmd.equals(travel02)){
-		  this.labelGameDestination.setText("現在地出雲");
-		  layout.show(cardPanel, diceRoll);
-		}else if (cmd.equals(travel03)){
-		  layout.show(cardPanel, diceRoll);
-		}else if (cmd.equals(exit)){
-			if (this.dice == 6 || this.dice == 1) {
-				layout.show(cardPanel, title);
-				this.count = 1;
-				String counter = String.valueOf(this.count);
-				this.labelCounter.setText(counter + "投目");
-				this.labelGameDestination.setText("現在地東京");
-			} else {
-				layout.show(cardPanel, diceRoll);
+		if (cmd.equals(exit)){
+			
+			if(this.count == 1) {
+				 //行先表示用
+		         placeName.add("夢の直行便"); //サイコロの目1
+		         placeName.add("ふぐが食べたい"); //サイコロの目2
+		         placeName.add("ふりだしに戻る"); //サイコロの目3
+		         placeName.add("魅惑のアイランド"); //サイコロの目4
+		         placeName.add("同じ島でもこれは遠いぞ"); //サイコロの目5
+		         placeName.add("謎のまち"); //サイコロの目6
+		       
+		         //地名表示用
+		         placeName2.add( "札幌"); //サイコロの目1
+		         placeName2.add( "下関"); //サイコロの目2
+		         placeName2.add( "オレンジライナー新宿"); //サイコロの目3
+		         placeName2.add( "小豆島");//サイコロの目4
+		         placeName2.add( "鹿児島"); //サイコロの目5
+		         placeName2.add( "臼杵"); //サイコロの目6
+		         
+		         
+		         for(int i = 0; i < placeName.size(); i++) {
+		        	 TravelTableModel.setValueAt(placeName.get(i), i, 2);
+		        	 TravelTableModel.setValueAt(placeName2.get(i), i, 1); 
+		        	 
+		         }
 			}
+		  if(this.count == 2) {
+               //行先表示用
+		       placeName.add("夢の直行便"); //サイコロの目1
+		       placeName.add("地獄の深夜バス「ぶんご号」"); //サイコロの目2
+		       placeName.add("一回休み"); //サイコロの目3
+		       placeName.add("ふりだしに戻る"); //サイコロの目4
+			   placeName.add("まだまだ九州"); //サイコロの目5
+			   placeName.add("たっぷり九州"); //サイコロの目6
+			       
+			   //地名表示用
+			   placeName2.add( "千歳"); //サイコロの目1
+			   placeName2.add( "名古屋"); //サイコロの目2
+			   placeName2.add( "別府温泉"); //サイコロの目3
+			   placeName2.add( "寝台特急「富士」　東京");//サイコロの目4
+			   placeName2.add( "小倉"); //サイコロの目5
+			   placeName2.add( "鹿児島"); //サイコロの目6
+			         
+			         
+			    for(int j = 0; j < placeName3.size(); j++) {
+			       TravelTableModel.setValueAt(placeName3.get(j), j, 2);
+			       TravelTableModel.setValueAt(placeName4.get(j), j, 1); 
+			        	 
+		        }
+		         
+		  } 
+				if (this.dice == 6 || this.dice == 1) {
+					layout.show(cardPanel, title);
+					this.count = 1;
+					String counter = String.valueOf(this.count);
+					this.labelCounter.setText(counter + "投目");
+					this.labelGameDestination.setText("現在地東京");
+					TravelTableModel.setDataVector(traveldata, columnName);
+				} else {
+					layout.show(cardPanel, diceRoll);
+				}
+			
+			
 			
 		}
+		
+        
         
         
         

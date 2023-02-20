@@ -50,13 +50,21 @@ public class TitleJF extends JFrame implements ActionListener{
   	         {"5", "ドリームふくふく", "下関"},
   	         {"6","エアポートリムジン", "羽田空港→札幌直行"}};
     
+    private String[][] izoumoTraveldata = {{"1","あぁ 懐かしい高知県", "宿毛"},
+ 	         {"2", "気合いを入れて九州", "小倉"},
+ 	         {"3", "ちょっと魅力",  "広島"},
+ 	         {"4",  "これも魅力", "ハワイ「羽合」温泉"},
+ 	         {"5", "JAS278便で", "羽田"},
+ 	         {"6","お待たせ！深夜バス「スサノオ号」	", "渋谷"}};
+    
     
     
     //サイコロテスト用
     String s = "";
     String s1 = "";
     int dice = 0;
-    int count = 0;
+    int diceCount = 0;
+    int bottonCount = 1;
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
 		TitleJF frame = new TitleJF();
@@ -305,72 +313,83 @@ public class TitleJF extends JFrame implements ActionListener{
 			  layout.show(cardPanel, diceRoll);
 			}else if (cmd.equals(travel02)){
 			  this.labelGameDestination.setText("現在地出雲");
+			  TravelTableModel.setDataVector(izoumoTraveldata, columnName);
 			  layout.show(cardPanel, diceRoll);
 			}else if (cmd.equals(travel03)){
 			  layout.show(cardPanel, diceRoll);
 			}
 		
 		if(cmd.equals(diceRoll)) {
-			this.count++;
+			this.bottonCount++;
 			this.dice = new java.util.Random().nextInt(6)+1;
 			String s = String.valueOf(this.dice);
 			this.labelDice.setText("出た目は" + s);
-			String s1 = String.valueOf(this.count);
+			String s1 = String.valueOf(this.bottonCount);
 			this.labelCounter.setText(s1 + "投目");
 			
-			
 			//現在地表示用Switch文
-			switch(this.dice) {
-	        case 1:
-	        	String d = traveldata[0][2];
-	        	String t = traveldata[0][1];
-	        	this.labelGameDestination.setText("行き先は" + d);
-	        	this.labelDestination.setText("行き先は" + d);
-	        	this.labelTransportation.setText("交通手段は" + t);
-	            break;
-	        case 2:
-	        	String d1 = traveldata[1][2];
-	        	String t1 = traveldata[1][1];
-	        	this.labelGameDestination.setText("現在地" + d1);
-	        	this.labelDestination.setText("行き先は" + d1);
-	        	this.labelTransportation.setText("交通手段は" + t1);
-	      	    break;
-	        case 3:
-	        	String d2 = traveldata[2][2];
-	        	String t2 = traveldata[2][1];
-	        	this.labelGameDestination.setText("現在地" + d2);
-	        	this.labelDestination.setText("行き先は" + d2);
-	        	this.labelTransportation.setText("交通手段は" + t2);
-	      	    break;
-	        case 4:
-	        	String d3 = traveldata[3][2];
-	        	String t3 = traveldata[3][1];
-	        	this.labelGameDestination.setText("現在地" + d3);
-	        	this.labelDestination.setText("行き先は" + d3);
-	        	this.labelTransportation.setText("交通手段は" + t3);
-	      	    break;
-	        case 5:
-	        	String d4 = traveldata[4][2];
-	        	String t4 = traveldata[4][1];
-	        	this.labelGameDestination.setText("現在地" + d4);
-	        	this.labelDestination.setText("行き先は" + d4);
-	        	this.labelTransportation.setText("交通手段は" + t4);
-	      	    break;
-	        case 6:
-	        	String d5 = traveldata[5][2];
-	        	String t5 = traveldata[5][1];
-	        	this.labelGameDestination.setText("現在地" + d5);
-	        	this.labelDestination.setText("行き先は" + d5);
-	        	this.labelTransportation.setText("交通手段は" + t5);
-	      	    break;
-	        }
+			if(this.diceCount == 0) {
+				switch(this.dice) {
+		        case 1:
+		        	String d = traveldata[0][2];
+		        	String t = traveldata[0][1];
+		        	this.labelGameDestination.setText("現在地" + d);
+		        	this.labelDestination.setText("行き先は" + d);
+		        	this.labelTransportation.setText("交通手段は" + t);
+		            break;
+		        case 2:
+		        	String d1 = traveldata[1][2];
+		        	String t1 = traveldata[1][1];
+		        	this.labelGameDestination.setText("現在地" + d1);
+		        	this.labelDestination.setText("行き先は" + d1);
+		        	this.labelTransportation.setText("交通手段は" + t1);
+		      	    break;
+		        case 3:
+		        	String d2 = traveldata[2][2];
+		        	String t2 = traveldata[2][1];
+		        	this.labelGameDestination.setText("現在地" + d2);
+		        	this.labelDestination.setText("行き先は" + d2);
+		        	this.labelTransportation.setText("交通手段は" + t2);
+		      	    break;
+		        case 4:
+		        	String d3 = traveldata[3][2];
+		        	String t3 = traveldata[3][1];
+		        	this.labelGameDestination.setText("現在地" + d3);
+		        	this.labelDestination.setText("行き先は" + d3);
+		        	this.labelTransportation.setText("交通手段は" + t3);
+		      	    break;
+		        case 5:
+		        	String d4 = traveldata[4][2];
+		        	String t4 = traveldata[4][1];
+		        	this.labelGameDestination.setText("現在地" + d4);
+		        	this.labelDestination.setText("行き先は" + d4);
+		        	this.labelTransportation.setText("交通手段は" + t4);
+		      	    break;
+		        case 6:
+		        	String d5 = traveldata[5][2];
+		        	String t5 = traveldata[5][1];
+		        	this.labelGameDestination.setText("現在地" + d5);
+		        	this.labelDestination.setText("行き先は" + d5);
+		        	this.labelTransportation.setText("交通手段は" + t5);
+		      	    break;
+		        }
+			}
+			this.diceCount++;
+			
+			
+			
+				
+			
+			
 			layout.show(cardPanel, exit);
 			
         }
 		
 		if (cmd.equals(exit)){
 			
-			if(this.count == 1) {
+			
+		
+			if(this.diceCount == 1) {
 				 //行先表示用
 		         placeName.add("夢の直行便"); //サイコロの目1
 		         placeName.add("ふぐが食べたい"); //サイコロの目2
@@ -388,41 +407,140 @@ public class TitleJF extends JFrame implements ActionListener{
 		         placeName2.add( "臼杵"); //サイコロの目6
 		         
 		         
+		         
 		         for(int i = 0; i < placeName.size(); i++) {
-		        	 TravelTableModel.setValueAt(placeName.get(i), i, 2);
-		        	 TravelTableModel.setValueAt(placeName2.get(i), i, 1); 
+		        	 TravelTableModel.setValueAt(placeName.get(i), i, 1);
+		        	 TravelTableModel.setValueAt(placeName2.get(i), i, 2); 
 		        	 
 		         }
+		         
+		       //現在地表示用Switch文
+					switch(this.dice) {
+			        case 1:
+			        	String d = placeName2.get(0);
+			        	String t = placeName.get(0);
+			        	this.labelGameDestination.setText("行き先は" + d);
+			        	this.labelDestination.setText("行き先は" + d);
+			        	this.labelTransportation.setText("交通手段は" + t);
+			            break;
+			        case 2:
+			        	String d1 = placeName2.get(1);
+			        	String t1 = placeName.get(1);
+			        	this.labelGameDestination.setText("現在地" + d1);
+			        	this.labelDestination.setText("行き先は" + d1);
+			        	this.labelTransportation.setText("交通手段は" + t1);
+			      	    break;
+			        case 3:
+			        	String d2 = placeName2.get(2);
+			        	String t2 = placeName.get(2);
+			        	this.labelGameDestination.setText("現在地" + d2);
+			        	this.labelDestination.setText("行き先は" + d2);
+			        	this.labelTransportation.setText("交通手段は" + t2);
+			      	    break;
+			        case 4:
+			        	String d3 = placeName2.get(3);
+			        	String t3 = placeName.get(3);
+			        	this.labelGameDestination.setText("現在地" + d3);
+			        	this.labelDestination.setText("行き先は" + d3);
+			        	this.labelTransportation.setText("交通手段は" + t3);
+			      	    break;
+			        case 5:
+			        	String d4 = placeName2.get(4);
+			        	String t4 = placeName.get(4);
+			        	this.labelGameDestination.setText("現在地" + d4);
+			        	this.labelDestination.setText("行き先は" + d4);
+			        	this.labelTransportation.setText("交通手段は" + t4);
+			      	    break;
+			        case 6:
+			        	String d5 = placeName2.get(5);
+			        	String t5 = placeName.get(5);
+			        	this.labelGameDestination.setText("現在地" + d5);
+			        	this.labelDestination.setText("行き先は" + d5);
+			        	this.labelTransportation.setText("交通手段は" + t5);
+			      	    break;
+			        }
 			}
-		  if(this.count == 2) {
-               //行先表示用
-		       placeName.add("夢の直行便"); //サイコロの目1
-		       placeName.add("地獄の深夜バス「ぶんご号」"); //サイコロの目2
-		       placeName.add("一回休み"); //サイコロの目3
-		       placeName.add("ふりだしに戻る"); //サイコロの目4
-			   placeName.add("まだまだ九州"); //サイコロの目5
-			   placeName.add("たっぷり九州"); //サイコロの目6
+			
+		  if(this.diceCount == 3) {
+            //行先表示用
+		       placeName3.add("夢の直行便"); //サイコロの目1
+		       placeName3.add("地獄の深夜バス「ぶんご号」"); //サイコロの目2
+		       placeName3.add("一回休み"); //サイコロの目3
+		       placeName3.add("ふりだしに戻る"); //サイコロの目4
+			   placeName3.add("まだまだ九州"); //サイコロの目5
+			   placeName3.add("たっぷり九州"); //サイコロの目6
 			       
 			   //地名表示用
-			   placeName2.add( "千歳"); //サイコロの目1
-			   placeName2.add( "名古屋"); //サイコロの目2
-			   placeName2.add( "別府温泉"); //サイコロの目3
-			   placeName2.add( "寝台特急「富士」　東京");//サイコロの目4
-			   placeName2.add( "小倉"); //サイコロの目5
-			   placeName2.add( "鹿児島"); //サイコロの目6
+			   placeName4.add( "千歳"); //サイコロの目1
+			   placeName4.add( "名古屋"); //サイコロの目2
+			   placeName4.add( "別府温泉"); //サイコロの目3
+			   placeName4.add( "寝台特急「富士」　東京");//サイコロの目4
+			   placeName4.add( "小倉"); //サイコロの目5
+			   placeName4.add( "鹿児島"); //サイコロの目6
 			         
 			         
 			    for(int j = 0; j < placeName3.size(); j++) {
-			       TravelTableModel.setValueAt(placeName3.get(j), j, 2);
-			       TravelTableModel.setValueAt(placeName4.get(j), j, 1); 
+			        TravelTableModel.setValueAt(placeName3.get(j), j, 1);
+			        TravelTableModel.setValueAt(placeName4.get(j), j, 2); 
 			        	 
+		        }
+			  //現在地表示用Switch文
+				switch(this.dice) {
+		        case 1:
+		        	String d = placeName4.get(0);
+		        	String t = placeName3.get(0);
+		        	this.labelGameDestination.setText("行き先は" + d);
+		        	this.labelDestination.setText("行き先は" + d);
+		        	this.labelTransportation.setText("交通手段は" + t);
+		            break;
+		        case 2:
+		        	String d1 = placeName4.get(1);
+		        	String t1 = placeName3.get(1);
+		        	this.labelGameDestination.setText("現在地" + d1);
+		        	this.labelDestination.setText("行き先は" + d1);
+		        	this.labelTransportation.setText("交通手段は" + t1);
+		      	    break;
+		        case 3:
+		        	String d2 = placeName4.get(2);
+		        	String t2 = placeName3.get(2);
+		        	this.labelGameDestination.setText("現在地" + d2);
+		        	this.labelDestination.setText("行き先は" + d2);
+		        	this.labelTransportation.setText("交通手段は" + t2);
+		      	    break;
+		        case 4:
+		        	String d3 = placeName4.get(3);
+		        	String t3 = placeName3.get(3);
+		        	this.labelGameDestination.setText("現在地" + d3);
+		        	this.labelDestination.setText("行き先は" + d3);
+		        	this.labelTransportation.setText("交通手段は" + t3);
+		      	    break;
+		        case 5:
+		        	String d4 = placeName4.get(4);
+		        	String t4 = placeName3.get(4);
+		        	this.labelGameDestination.setText("現在地" + d4);
+		        	this.labelDestination.setText("行き先は" + d4);
+		        	this.labelTransportation.setText("交通手段は" + t4);
+		      	    break;
+		        case 6:
+		        	String d5 = placeName4.get(5);
+		        	String t5 = placeName3.get(5);
+		        	this.labelGameDestination.setText("現在地" + d5);
+		        	this.labelDestination.setText("行き先は" + d5);
+		        	this.labelTransportation.setText("交通手段は" + t5);
+		      	    break;
 		        }
 		         
 		  } 
+			
 				if (this.dice == 6 || this.dice == 1) {
 					layout.show(cardPanel, title);
-					this.count = 1;
-					String counter = String.valueOf(this.count);
+					this.diceCount = 0;
+					this.bottonCount = 1;
+					String counter = String.valueOf(this.bottonCount);
+					placeName.clear();
+					placeName2.clear();
+					placeName3.clear();
+					placeName4.clear();
 					this.labelCounter.setText(counter + "投目");
 					this.labelGameDestination.setText("現在地東京");
 					TravelTableModel.setDataVector(traveldata, columnName);

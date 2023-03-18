@@ -18,13 +18,14 @@ public class TravelDB {
     private String travelName = "";
 	private ArrayList<String> diceTransportList;
 	private ArrayList<String> diceDestinationList;
-	private List<String> TransportList = new ArrayList<>();
-	private List<String> DestinationList = new ArrayList<>();
+	
 	private int start = 0;
 	private int end = 0;
 	private ArrayList<String> diceHistoryList;
 	DefaultTableModel TravelTableModel;
-	 DiceGameJF diceGame = new DiceGameJF();
+
+	private int number = 1;
+	private int sizeCount;
     
     
     public TravelDB() throws ClassNotFoundException, SQLException{
@@ -50,35 +51,25 @@ public class TravelDB {
     
     
     public ResultSet getInitiallizeTableData(String travelName) throws SQLException {
-    	return  this.statement.executeQuery(String.format("SELECT * FROM %S WHERE dice_id BETWEEN %d AND %d", travelName,this.start, this.end));
+    	return  this.statement.executeQuery(String.format("SELECT * FROM %S WHERE dice_id BETWEEN %d AND %d", travelName, this.start, this.end));
     }
     
     public void setTravelTableModel(String travelName) throws SQLException {
+    	this.setTableSize(travelName);
     	this.resultSet = getInitiallizeTableData(travelName);
+    	
+    	
          this.diceTransportList = new ArrayList<String>();
          this.diceDestinationList = new ArrayList<String>();
          this.diceHistoryList = new ArrayList<String>();
          while (this.resultSet.next()) {
-        	/*Object[] rowData = new Object[columnCount];
-            for (int i = 1; i <= columnCount; i++) {
-                rowData[i - 1] = resultSet.getObject(i);
-            }*/
-           // TravelTableModel.addRow(rowData);
             String transportData = resultSet.getString("dice_Transportation");
-    		 diceTransportList.add(transportData);
+    		 this.diceTransportList.add(transportData);
     		 String destinationData = resultSet.getString("dice_destination");
-    		 diceDestinationList.add(destinationData);
+    		 this.diceDestinationList.add(destinationData);
     		 String histroyData = resultSet.getString("dice_histroy");
-    		 diceHistoryList.add(histroyData);
-//    		 if(diceTransportList.size() != 0) {
-//	    		 int limit = Math.min(diceTransportList.size(), 6);
-//	    		 //TravelTableModel.setRowCount(limit);
-//	    		 //for(int i = 0;  i < limit; i++) {
-//	    			 this.setDiceTransport(diceTransportList.get(i));
-//	    			 this.setDiceDestination(diceDestinationList.get(i));
-//	    		      	
-//			     //}
-//    		 }
+    		 this.diceHistoryList.add(histroyData);
+
          }	 	
     }
     
@@ -91,7 +82,7 @@ public class TravelDB {
     	
     }
     
-    public List<String> diceHistoryList() {
+    public List<String> getDiceHistoryList() {
     	return this.diceHistoryList;
     }
     
@@ -104,9 +95,6 @@ public class TravelDB {
     	this.start = start;
     	this.end = end;
     }
-    
-    
-
     
     public void closeDB() {
     	try {
@@ -130,7 +118,7 @@ public class TravelDB {
 	 * @return table size
 	 * @throws SQLException 
  	 */
-	public int getTableSize(String tableName) throws SQLException {
+	public void setTableSize(String tableName) throws SQLException {
 		int sizeCount = 0;
 		try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/diceTravelDB", "postgres", "hagawa2548");
 		         Statement statement = connection.createStatement();
@@ -141,109 +129,14 @@ public class TravelDB {
 		/*while (this.resultSet.next()) {
 			sizeCount++;
    	 }*/ 
-		return sizeCount;
+		this.sizeCount = sizeCount;
+	}
+	
+	public int getTableSize() {
+		return this.sizeCount;
 	}
     
-	/*TravelDB() {
-    	try {
-			
-			//int start = this.number;
-			//int end = start + 5;
-			Class.forName("org.postgresql.Driver");
-			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/diceTravelDB", // "jdbc:postgresql://[場所(Domain)]:[ポート番号]/[DB名]"
-                    "postgres", // ログインロール
-                    "hagawa2548"); // パスワード
-			Statement statement = connection.createStatement();
-			
-			//this.resultSet = statement.executeQuery("SELECT * FROM travel1");
-
-			int travel1Size = getTableSize(this.travelName);
-			
-			this.resultSet = statement.executeQuery(String.format("SELECT * FROM %S WHERE dice_id BETWEEN %d AND %d", this.travelName,this.start, this.end));
-			
-			
-			//this.number = end + 1;
-			if(end == travel1Size) {
-				//this.number = 1;
-				
-			}
-			
-			this.diceTransportList = new ArrayList<String>();
-	    	this.diceDestinationList = new ArrayList<String>();
-	    	this.diceHistoryList = new ArrayList<String>();
-	    	
-			if(start == 1) {
-				
-             ResultSetMetaData meta = resultSet.getMetaData();
-             int columnCount = meta.getColumnCount();
-             while (resultSet.next()) {
-
-            	Object[] rowData = new Object[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    rowData[i - 1] = resultSet.getObject(i);
-                }
-                TravelTableModel.addRow(rowData);
-                String transportData = resultSet.getString("dice_Transportation");
-	    		 diceTransportList.add(transportData);
-	    		 String destinationData = resultSet.getString("dice_destination");
-	    		 diceDestinationList.add(destinationData);
-	    		 String histroyData = resultSet.getString("dice_histroy");
-	    		 diceHistoryList.add(histroyData);
-	    		 if(diceTransportList.size() != 0) {
-		    		 int limit = Math.min(diceTransportList.size(), 6);
-		    		 TravelTableModel.setRowCount(limit);
-		    		 for(int i = 0;  i < limit; i++) {
-		    			 this.setDiceTransport(diceTransportList.get(i));
-		    			 this.setDiceTransport(diceDestinationList.get(i));
-		    		      	
-				     }
-		    		 
-		    	 } 	
-             }
-		    }else {
-		    	
-		    	
-		    	 while (resultSet.next()) {
-		    		 String transportData = resultSet.getString("dice_Transportation");
-		    		 diceTransportList.add(transportData);
-		    		 String destinationData = resultSet.getString("dice_destination");
-		    		 diceDestinationList.add(destinationData);
-		    		 String histroyData = resultSet.getString("dice_histroy");
-		    		 diceHistoryList.add(histroyData);
-		    	 } 
-		    	 
-		    	 if(diceTransportList.size() != 0) {
-		    		 int limit = Math.min(diceTransportList.size(), 6);
-		    		 TravelTableModel.setRowCount(limit);
-		    		 for(int i = 0;  i < limit; i++) {
-		    			 this.setDiceTransport(diceTransportList.get(i));
-		    		     TravelTableModel.setValueAt(diceDestinationList.get(i), i, 2);
-		    		      	
-				     }
-		    		 
-		    	 } 	
-		    }
-			
-		} catch(ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}catch(SQLException e2) {
-			e2.printStackTrace();
-		}finally {
-			try {
-	        	   if (resultSet != null) {
-	                   resultSet.close();
-	               }
-	               if (statement != null) {
-	                   statement.close();
-	               }
-	               if (connection != null) {
-	                   connection.close();
-	               }
-	           } catch(SQLException e3) {
-	        	   e3.printStackTrace();
-	           }
-		}
-	}*/
+	
     
     
    }

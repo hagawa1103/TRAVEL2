@@ -1,10 +1,12 @@
 package scene;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,18 +14,30 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class DiceResultJP extends JPanel implements ActionListener{
-	
-	 private final String exit = "tugihe";
+	JPanel cardPanel;
+	CardLayout layout;
 	private JLabel labelDice;
 	private JLabel labelDestination;
 	private JLabel labelTransportation;
 	private JLabel labelHistory;
-	
-	DiceResultJP() {
+	private JPanel historyScreen;
+	private TravelDB travelDB = null;
+	private DiceGameJP diceGameJP = null;
+	private DiceEndJP diceEndJP = null;
+	private DiceMainJF frame = null;
+	private int count = 1;
+	private int start = 0;
+	private int end = 0;
+	private String travelName = "";
+	private int number = 7;
+	private String Destination;
+	 
+	DiceResultJP(DiceMainJF frame) {
+		this.frame = frame;
 		this.setBackground(Color.LIGHT_GRAY);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             
-        String messeages02 =  "↑次へを押してね";
+        
         
        
         this.labelDice = new JLabel("");
@@ -42,44 +56,135 @@ public class DiceResultJP extends JPanel implements ActionListener{
         this.labelTransportation.setAlignmentY(0.5f);
         this.labelTransportation.setAlignmentX(0.5f);
         
+        //史実ネタ画面配置
+        this.historyScreen = new JPanel();
         
-        JLabel label12 = new JLabel(messeages02);
-        label12.setAlignmentY(0.5f);
-        label12.setAlignmentX(0.5f);
-        
-        //DB画面配置デザインテスト用
-        JPanel panel06 = new JPanel();
-        panel06.setBackground(Color.WHITE);
-        panel06.setMaximumSize(new Dimension(500, 200));
-        
-        //文章表示確認テスト用,行き先が松山の時だけ表示
+        this.historyScreen.setMaximumSize(new Dimension(500, 200));
+      //史実ネタ文章表示用
         this.labelHistory = new JLabel();
         labelHistory.setPreferredSize(new Dimension(500, 200));
-        panel06.add(labelHistory);
+        historyScreen.add(labelHistory);
 
-        String btnName2 = "次へ";
-        JButton btn05 = new JButton(btnName2);
-        btn05.setAlignmentY(0.5f);
-        btn05.setAlignmentX(0.5f);
-        btn05.addActionListener(this);
-        btn05.setActionCommand(exit);
+        JButton nextbtn = new JButton("次へ");
+        nextbtn.setAlignmentY(0.5f);
+        nextbtn.setAlignmentX(0.5f);
+        nextbtn.addActionListener(this);
+        
+        
+        JLabel nextMesseage = new JLabel("↑次へを押してね");
+        nextMesseage.setAlignmentY(0.5f);
+        nextMesseage.setAlignmentX(0.5f);
+        
+        
  
         this.add(this.labelDice);
         this.add(labelDestination);
         this.add(labelTransportation);
-        this.add(panel06);
-        this.add(btn05);
-        this.add(label12);
+        this.add(historyScreen);
+        this.add(nextbtn);
+        this.add(nextMesseage);
         
-		
+     
+        
 	}
+	
+	public void setDiceNumber(int dice) {
+		String diceNumber = String.valueOf(dice);
+		this.labelDice.setText("出た目" + diceNumber);
+	}
+	
+	public void setLabelDestination(String Destination) {
+		this.Destination = Destination ;
+		this.labelDestination.setText("行先は" + Destination);
+	}
+	
+	public void setLabelTransportation(String Transportation) {
+		this.labelTransportation.setText("交通手段は" + Transportation);
+	}
+	
+	public void setlabelHistory(String History) {
+		if(History == null) {
+	           this.historyScreen.setBackground(Color.LIGHT_GRAY); 
+		    } else {
+			   this.historyScreen.setBackground(Color.WHITE);
+		    }
+
+		
+		this.labelHistory.setText(History);
+	}
+	
+	public void setCounter(int count) {
+		this.count = count;
+	}
+	
+	public int getCounter() {
+		return this.count;
+	}
+	
+	public void setNumber(int number) {
+		this.number = number;
+	}
+	
+	public void setTravelname(String travelName) {
+		this.travelName = travelName;
+	}
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO 自動生成されたメソッド・スタブ
+		
+		if(this.Destination.contains("北海道") || this.Destination.contains("札幌") ) {
+			this.diceEndJP = new DiceEndJP(frame);
+			frame.addCardPanel(this.diceEndJP, "end");
+			frame.showCard("end");
+		} else if(this.Destination.contains("千歳") || this.Destination.contains("苫小牧")){
+			this.diceEndJP = new DiceEndJP(frame);
+			frame.addCardPanel(this.diceEndJP, "end");
+			frame.showCard("end");
+		} else if(this.Destination.contains("函館")) {
+			this.diceEndJP = new DiceEndJP(frame);
+			frame.addCardPanel(this.diceEndJP, "end");
+			frame.showCard("end");
+		} else {
+		
+	
+		this.count++;
+		this.diceGameJP = new DiceGameJP(frame);
+		try {
+			this.travelDB = new TravelDB();
+			this.start = this.number;
+			this.end = start + 5;
+			this.travelDB.setQueryNumber(this.start, this.end);
+			this.number = this.end + 1;
+			this.travelDB.setTravelTableModel(this.travelName);
+			int travel1Size = this.travelDB.getTableSize();
+			if(end == travel1Size) {
+				this.number = 1;
+			}
+			this.diceGameJP.setTravelname(this.travelName);
+			this.diceGameJP.setNumber(this.number);
+			int endnumber = this.end + 6;
+			this.diceGameJP.setEndNumber(endnumber);
+			this.diceGameJP.setCounter(this.count);
+			this.diceGameJP.setlabelGameDestination(this.Destination);
+			this.diceGameJP.setTravelTM(this.travelDB.getDiceTransportList(), this.travelDB.getDiceDestinationList());
+		} catch (ClassNotFoundException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		} finally {
+			this.travelDB.closeDB();
+		}
+		
+        frame.addCardPanel(this.diceGameJP, "DiceGame");
+		
+		frame.showCard("DiceGame");
+		
+		}
+		
 		
 	}
-	
-	
-
 }
